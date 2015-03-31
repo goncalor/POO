@@ -8,6 +8,8 @@ public class company extends stockowner {
 	company(int value, String name, int amount){
 		super(amount, name);
 		this.setValue(value);
+		Share s = new Share(this);
+		this.ownerCollector.add(s);
 	}
 	public int getValue(){
 		return this.value;
@@ -17,6 +19,11 @@ public class company extends stockowner {
 	}
 	public void createShares(int amount){
 		int i = this.ownerCollector.indexOf(this);
-		this.ownerCollector.get(i).addShares(amount);
+		if(i==-1){
+			Share s = new Share(amount, this);
+			this.ownerCollector.add(s);
+		}else{
+			this.ownerCollector.get(i).addShares(amount);
+		}
 	}
 }

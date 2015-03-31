@@ -1,8 +1,9 @@
 package bank;
 import java.util.List;
+import java.util.LinkedList;
 
 public class stockMarket {
-	List <Share> Collection;
+	List <Share> shares = new LinkedList<Share>();
 	stockMarket(){}
 	
 	public int putInMarket(stockowner John,company Apple, int quantity){
@@ -32,20 +33,25 @@ public class stockMarket {
 		return this.buy(Apple,  Apple, quantity);
 	}
 	public void join(int quantity, company Apple){
-		int i = this.Collection.indexOf(Apple);
+		int i = this.shares.indexOf(Apple);
 		if(i == -1){
-			Collection.add(new Share(quantity, Apple));
+			shares.add(new Share(quantity, Apple));
 		}else{
-			Collection.get(i).addShares(quantity);
+			shares.get(i).addShares(quantity);
 		}
 	}
 	public void remove(int quantity, company Apple){
-		int i = this.Collection.indexOf(Apple);
-		Collection.get(i).subShares(quantity);
+		int i = this.shares.indexOf(Apple);
+		shares.get(i).subShares(quantity);
 	}
-	public void main (int args[], String s){
+	public static void  main (String[] args){
 		company Microsoft = new company("Microsoft", 10);
 		stockowner Fiolhais = new stockowner(10, "Fiolhais");
+		stockMarket WallStreet = new stockMarket();
 		
+		Microsoft.createShares(20);
+		System.out.println("Microsoft has "+ Microsoft.getShares(Microsoft) +"shares now");
+		
+		System.out.println("Fiolhais has bought "+ WallStreet.buy(Fiolhais, Microsoft, 1) +" shares");
 	}
 }

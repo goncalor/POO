@@ -1,9 +1,10 @@
 package bank;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class stockowner {
-	List <Share> ownerCollector;
+	List <Share> ownerCollector = new LinkedList<Share>();
 	protected int balance;
 	protected String name;
 	
@@ -15,8 +16,12 @@ public class stockowner {
 		this.name = s;
 	}
 	public int hasEnough(int quantity, company Apple){
+		if( this.ownerCollector.isEmpty()){
+			return 0;
+		}
 		int i = this.ownerCollector.indexOf(Apple);
 		if( i == -1){
+			System.out.println("It's empty");
 			return 0;
 		}else{
 			if(this.ownerCollector.get(i).getShares() < quantity){
@@ -46,7 +51,7 @@ public class stockowner {
 		int i = this.ownerCollector.indexOf(Apple);
 		if(i == -1){
 			System.out.println("You do not own shares of " + Apple.name);
-		}else{
+		}else{ 
 			this.ownerCollector.get(i).subShares(amount);	
 			if(this.ownerCollector.get(i).getShares() == 0){
 				this.ownerCollector.remove(i);
@@ -55,6 +60,12 @@ public class stockowner {
 	}
 	public int getShares(company Apple){
 		int i = this.ownerCollector.indexOf(Apple);
+		if(i == -1){
+			return 0;
+		}
 		return this.ownerCollector.get(i).getShares();
+	}
+	public String getName(){
+		return this.name;
 	}
 }
