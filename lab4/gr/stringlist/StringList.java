@@ -4,16 +4,16 @@ public class StringList {
 
 	protected Node list, listend;	// list points to the first node. listend points to the last
 
-	StringList()
+	public StringList()
 	{
 		list = listend = null;
 	}
-	
-	StringList(String str)
+
+	public StringList(String str)
 	{
 		list = listend = new Node(str);
 	}
-	
+
 	public void insert(String str)
 	{
 		if(list == null)
@@ -21,7 +21,7 @@ public class StringList {
 			list = listend = new Node(str);
 			return;
 		}
-		
+
 		listend = listend.setNext(new Node(str));
 	}
 
@@ -29,10 +29,10 @@ public class StringList {
 	{
 		Node aux;	// aux points to the element before the one that might be removed
 		int i = 0;
-		
+
 		if(list == null)
 			return 0;
-		
+
 		// remove from the beginning of the list
 		while(list.getString().equals(str))
 		{
@@ -62,15 +62,15 @@ public class StringList {
 		listend = aux;
 		return i;
 	}
-	
+
 	public int length()
 	{
 		Node aux;
 		int len = 0;
-		
+
 		for(aux = list; aux != null; aux = aux.getNext())
 			len++;
-		
+
 		return len;
 	}
 
@@ -79,7 +79,7 @@ public class StringList {
 	{
 		StringBuilder str = new StringBuilder();
 		Node aux;
-		
+
 		for(aux = list; aux != null; aux = aux.getNext())
 		{
 			str.append(aux.toString() + ", ");
@@ -89,7 +89,7 @@ public class StringList {
 			return "{" + str.substring(0, str.length()-2) + "}";
 		return "{<empty>}";
 	}
-	
+
 	// this hashCode is pretty bad for this
 	@Override
 	public int hashCode()
@@ -111,7 +111,7 @@ public class StringList {
 			return false;
 		StringList other = (StringList) obj;
 		Node aux1 = this.list, aux2 = other.list;
-		
+
 		while(aux1 != null && aux2 != null)
 		{
 			if(aux1.equals(aux2))
@@ -135,7 +135,7 @@ public class StringList {
 		System.out.println("The stringList " + this + " is being deleted...");
 		super.finalize();
 	}
-	
+
 	public static void main(String args[])
 	{
 		StringList test = new StringList();
@@ -143,7 +143,7 @@ public class StringList {
 		test.insert("cenas");
 		test.insert("coisas variadas");
 		System.out.println(test.length());
-		
+
 		test.remove("coisas variadas");
 
 		System.out.println(test);
@@ -157,7 +157,7 @@ public class StringList {
 		System.out.println("test2: " + test2);
 		System.out.println(test == test2);
 		System.out.println(test.equals(test2));
-		
+
 		// see the effects of garbage collecting
 		test = null;
 		System.gc();	// the garbage collector is non-deterministic. call it multiple times and you will get different results

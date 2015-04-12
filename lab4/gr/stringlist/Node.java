@@ -4,31 +4,29 @@ public class Node {
 
 	String str;	// no modifier: visible inside the class and the package
 	Node next;
-	
-	Node(String str)
+
+	public Node(String str)
 	{
 		this(str, null);
 	}
-	
-	Node(String str, Node next)
+
+	public Node(String str, Node next)
 	{
 		this.str = str;
 		this.next = next;
 	}
-	
+
 	public Node setNext(Node next)
 	{
 		this.next = next;
 		return next;
 	}
-	
+
 	public Node getNext()
 	{
 		return next;
 	}
-	
-	
-	
+
 	public String getString()
 	{
 		return str;
@@ -67,7 +65,7 @@ public class Node {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	protected void finalize() throws Throwable
 	{
