@@ -8,6 +8,7 @@ public class Triangulo extends Forma {
 		this.base = base;
 		this.altura = altura;
 	}
+	
 	@Override
 	int[] interseccao(int y) {
 		// TODO Auto-generated method stub
