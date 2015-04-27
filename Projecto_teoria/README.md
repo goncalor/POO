@@ -33,3 +33,35 @@ Algoritmos que gerem a função de "scoring": LL - Log Likelihood, MDL - Minimum
 ###In the End
 
 Queremos que seja possível tendo X[t] dizer o valor que Xi[t] pode ter, de modo a poder inferir sobre acontecimentos futuros apenas com resultados do presente
+
+###Other notes
+
+The program input consist of:
+    1) train - input file
+    2) test - input file
+    3) score - is the string that identifies the score to be used to build the DBN model
+    4) randrest - number of random restarts used to build the GHC network
+    5) [OPTIONAL] - index of X[t+1] from which we want to perform inference
+
+####train
+
+Format: 
+    X1[0], ..., Xn[0], X1[1], ..., Xn[1], ..., X1[T], ..., Xn[T]
+    v11[0], ..., vn1[0], v11[1], ..., vn1[1], ..., v11[T], ..., vn1[T]
+    ....
+    v1N[0], ..., vnN[0], v1N[1], ..., vnN[1], ..., v1N[T], ..., vnN[T]
+
+    where the first line correspondes to the X = {X[0], X[1], ..., X[T]} initial data and each line after that represents each instance of the training data
+    The matrix does not have to be rectangular! limit values can change
+
+####test
+
+Format:
+
+    X1[t], ..., Xn[t]
+    y11[t], ..., yn1[t]
+    ....
+    y1Z[t], ..., ynZ[t]
+
+    where Z is the number of instances in the test set
+
