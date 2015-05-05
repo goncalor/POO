@@ -38,15 +38,14 @@ public class Data {
 
 	public void parseVarNames(String s){
 		String[] temp = s.split(",");
-		boolean belongs=false;
 		
-		for(int i = 0; i < temp.length && !belongs;i++){
+		for(int i = 0; i < temp.length;i++){
 			String aux = temp[i].substring(0, temp[i].length() - 2);
 			if(!varNames.contains(aux)){
 				varNames.add(aux);
 				varNumb++;
 			}else{
-				belongs = true;
+				break;
 			}
 		}
 	}
