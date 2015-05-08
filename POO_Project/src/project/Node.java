@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Node {
 
-	List<Node> parents;
-	List<Node> children;
+	protected List<Node> parents;
+	protected List<Node> children;
 	
 	public Node()
 	{
@@ -16,22 +16,21 @@ public class Node {
 	
 	public void addParent(Node p)
 	{
-		
+		parents.add(p);
 	}
 	
 	public void remParent(Node p)
 	{
-		
+		parents.remove(p);
 	}
 	
 	public void addChild(Node c)
 	{
-		
+		children.add(c);
 	}
 	
 	public void remChild(Node c)
 	{
-		
+		children.remove(c);
 	}
-
 }
