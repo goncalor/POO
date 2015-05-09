@@ -2,5 +2,5 @@ package project;
 
 public interface CheckStructure {
 
-	public abstract boolean checkDAG();
+	public boolean execute(TransitionNetwork network);
 }

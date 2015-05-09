@@ -35,7 +35,7 @@ public class TransitionNetwork extends Network {
 
 		p.addChild(c);
 		c.addParent(p);
-		if(checkDAG.checkDAG())
+		if(checkDAG())
 			return true;
 		p.remChild(c);
 		c.remParent(p);
@@ -65,7 +65,7 @@ public class TransitionNetwork extends Network {
 		// add it reversed
 		c.addChild(p);
 		p.addParent(c);
-		if(checkDAG.checkDAG())
+		if(checkDAG())
 			return true;
 		p.remParent(c);
 		c.remChild(p);
@@ -90,9 +90,16 @@ public class TransitionNetwork extends Network {
 		return this.nodes.length;
 	}
 
-	/** sets the method to use when checking if the network is a DAG */
-	public void setCheckDAG(CheckStructure T) {
-		this.checkDAG = T;
+	/** sets the method to use when checking if the network is a DAG during 
+	 * {@link project.TransitionNetwork#addEdge(Node, Node)} and 
+	 * {@link project.TransitionNetwork#invEdge(Node, Node)} */
+	public void setCheckDAG(CheckStructure checkMethod) {
+		this.checkDAG = checkMethod;
+	}
+	
+	/** checks if the network is a DAG */
+	private boolean checkDAG() {
+		return checkDAG.execute(this);
 	}
 
 	/** sets the method to use when training the network */

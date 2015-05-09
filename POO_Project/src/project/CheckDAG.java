@@ -1,11 +1,7 @@
 package project;
 
-public class CheckDAG implements CheckStructure {
+public interface CheckDAG extends CheckStructure {
 
 	@Override
-	public boolean checkDAG() {
-		
-		return false;
-	}
-
+	public boolean execute(TransitionNetwork network);
 }
