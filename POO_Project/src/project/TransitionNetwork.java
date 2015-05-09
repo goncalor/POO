@@ -5,7 +5,6 @@ public class TransitionNetwork extends Network {
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
 	private Node[] nodes;
 	CheckStructure checkDAG;
-	Train train;
 	
 	/** */
 	public TransitionNetwork(Data data, int index) {
@@ -92,7 +91,7 @@ public class TransitionNetwork extends Network {
 	}
 
 	/** sets the method to use when training the network */
-	public void setTrain(Train T) {
-		this.train = T;
+	public void train(Train T) {
+		T.execute(this);
 	}
 }

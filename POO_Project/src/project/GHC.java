@@ -2,7 +2,7 @@ package project;
 
 public class GHC implements Train {
 
-	public void train()
+	public void execute(TransitionNetwork T)
 	{
 		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
 		 * 	Output: Nres
@@ -17,10 +17,20 @@ public class GHC implements Train {
 		 * 	return Nres
 		 */
 		
-		TransitionNetwork nRes, nMax, n = null;
+		TransitionNetwork nRes=T, nMax, nTemp = nRes;
 		while(true){
-			nMax = calcMaxNeighbourhood(n);
+			nMax = calcMaxNeighbourhood(nTemp);
+			if(scoring(new LL(), nTemp) > scoring(new LL(),nMax))
+				nMax = randomRestart();
+			if(scoring(new LL(), nMax) > scoring(new LL(), nRes))
+				nRes = nMax;
+			nTemp = nMax;
 		}
+	}
+	
+	public TransitionNetwork randomRestart(){
+		
+		return null;
 	}
 	
 	public TransitionNetwork calcMaxNeighbourhood(TransitionNetwork nInit){
@@ -28,9 +38,8 @@ public class GHC implements Train {
 		return null;
 	}
 	
-	Score score;
-	public void setScore(Score T)
+	public float scoring(Score S, TransitionNetwork T)
 	{
-		this.score = T;
+		return S.execute(this, T);
 	}
 }

@@ -2,5 +2,5 @@ package project;
 
 public interface Train {
 
-	public void train();
+	public void execute(TransitionNetwork T);
 }

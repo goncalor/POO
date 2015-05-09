@@ -2,6 +2,6 @@ package project;
 
 public interface Score {
 	
-	public float scoringCriteria(int[] col1, int[] col2);
+	public float execute(GHC g, TransitionNetwork T);
 
 }
