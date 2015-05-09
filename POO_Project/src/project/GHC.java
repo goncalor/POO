@@ -22,8 +22,6 @@ public class GHC implements Train {
 		TransitionNetwork nRes=T, nMax, nTemp = nRes;
 		while(true){
 			nMax = calcMaxNeighbourhood(nTemp);
-			if(scoring(S, nTemp) > scoring(S,nMax))
-				nMax = randomRestart(T);
 			if(scoring(S, nMax) > scoring(S, nRes))
 				nRes = nMax;
 			nTemp = nMax;
@@ -33,19 +31,26 @@ public class GHC implements Train {
 	public TransitionNetwork randomRestart(TransitionNetwork T){
 		int nrNodes = T.nrNodes();
 		int half = nrNodes/2;
-		TransitionNetwork newT;
 		Node[] past = new Node[half];
 		Node[] present = new Node[half];
 		Random rand = new Random();
 		
-		for(int i=0; i<nrNodes; i++){
-			
+		for(int i=0; i<half; i++){
+			past[i].addParent(present[rand.nextInt()%half]);
+			present[i].addParent(present[rand.nextInt()%half]);
+			present[i].addParent(past[rand.nextInt()%half]);
+			present[i].addChild(present[rand.nextInt()%half]);
 		}
 		
 		return null;
 	}
 	
 	public TransitionNetwork calcMaxNeighbourhood(TransitionNetwork nInit){
+		Node tempNode;
+		
+		for(int i=0; i<nInit.nrNodes(); i++){
+			tempNode = nInit.getNode(i);
+		}
 		
 		return null;
 	}

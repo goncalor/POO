@@ -2,6 +2,7 @@ package project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class Node {
 
@@ -50,5 +51,12 @@ public class Node {
 	public boolean isChild(Node p)
 	{
 		return this.parents.contains(p);
+	}
+	
+	public ListIterator<Node> getParentIterator(){
+		return parents.listIterator();
+	}
+	public ListIterator<Node> getChildIterator(){
+		return children.listIterator();
 	}
 }
