@@ -35,6 +35,10 @@ public class Data{
 	public void setVarDomain(int[] varDomain) {
 		this.varDomain = varDomain;
 	}
+	
+	public Slice get(int i) {
+		return slices[i];
+	}
 
 	@Override
 	public String toString() {

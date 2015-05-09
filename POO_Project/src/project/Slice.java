@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Slice {
 	private List<List<Integer>> xi;
-	static int numVar;
+	public static int numVar;
 
 	public Slice(int n) {
 		numVar = n;
