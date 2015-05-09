@@ -6,5 +6,5 @@ public abstract class Network {
 	public abstract boolean remEdge(Node p, Node c) throws NodeOutOfBoundsException;
 	public abstract boolean invEdge(Node p, Node c) throws NodeOutOfBoundsException;
 	
-	public abstract boolean isEdge(Node p, Node c) throws NodeOutOfBoundsException;
+	public abstract boolean existsEdge(Node p, Node c) throws NodeOutOfBoundsException;
 }
