@@ -3,7 +3,7 @@ package project;
 import java.util.Arrays;
 
 public class Data{
-	Slice[] slices;
+	protected Slice[] slices;
 	protected String[] varNames;
 	protected int[] varDomain;
 	
