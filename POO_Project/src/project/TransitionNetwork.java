@@ -5,13 +5,19 @@ public class TransitionNetwork extends Network {
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
 	private Node[] nodes;
 	CheckStructure checkDAG;
+	private Slice past;
+	private Slice present;
 	
 	/** */
 	public TransitionNetwork(Data data, int index) {
-		//Slice slice = data.get(index);
+		
+		//TODO verify if a slice for index+1 exists
+		past = data.get(index);
+		present = data.get(index+1);
 		nodes = new Node[2*Slice.numVar];
-
-		for(int i=0; i<nodes.length; i++)
+		checkDAG = new Tarjan();	// Tarjan is the default algorith for checkDAG()
+		
+		for(int i=0; i<nodes.length; i++)	// create nodes for this TN
 			nodes[i] = new Node();	
 	}
 	
@@ -27,7 +33,9 @@ public class TransitionNetwork extends Network {
 		return false;
 	}
 	
-	/** adds a directed edge from {@code p} to {@code c} */
+	/** adds a directed edge from {@code p} to {@code c} if this does not disrupt the
+	 * the property of the TN being a DAG
+	 * @return {@code true} if the edge was added */
 	@Override
 	public boolean addEdge(Node p, Node c) throws NodeOutOfBoundsException {
 		if(!inNodes(p) || !inNodes(c))
@@ -42,7 +50,8 @@ public class TransitionNetwork extends Network {
 		return false;
 	}
 
-	/** removes a directed edge from {@code p} to {@code c} */
+	/** removes a directed edge from {@code p} to {@code c}
+	 * @return {@code true} */
 	@Override
 	public boolean remEdge(Node p, Node c) throws NodeOutOfBoundsException {
 		if(!inNodes(p) || !inNodes(c))
@@ -53,7 +62,9 @@ public class TransitionNetwork extends Network {
 		return true;
 	}
 
-	/** inverts an edge from {@code p} to {@code c} */
+	/** inverts an edge from {@code p} to {@code c} if this does not disrupt the
+	 * the property of the TN being a DAG
+	 * @return {@code true} if the edge was inverted */
 	@Override
 	public boolean invEdge(Node p, Node c) throws NodeOutOfBoundsException {
 		if(!inNodes(p) || !inNodes(c))
@@ -74,7 +85,7 @@ public class TransitionNetwork extends Network {
 		return false;
 	}
 	
-	/** returns true if directed edge exists from {@code p} to {@code c} */
+	/** @return {@code true} if a directed edge exists from {@code p} to {@code c} */
 	@Override
 	public boolean existsEdge(Node p, Node c) throws NodeOutOfBoundsException {
 		if(!inNodes(p) || !inNodes(c))
