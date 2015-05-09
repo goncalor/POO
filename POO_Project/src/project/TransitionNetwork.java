@@ -84,6 +84,11 @@ public class TransitionNetwork extends Network {
 			return true;
 		return false;
 	}
+	
+	/** returns the number of elements stored in {@code Node[] nodes} */
+	public int nrNodes(){
+		return this.nodes.length;
+	}
 
 	/** sets the method to use when checking if the network is a DAG */
 	public void setCheckDAG(CheckStructure T) {
@@ -91,7 +96,7 @@ public class TransitionNetwork extends Network {
 	}
 
 	/** sets the method to use when training the network */
-	public void train(Train T) {
-		T.execute(this);
+	public void train(Train T, Score S) {
+		T.execute(this, S);
 	}
 }
