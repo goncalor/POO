@@ -1,8 +1,10 @@
 package project;
 
+import java.util.Random;
+
 public class GHC implements Train {
 
-	public void execute(TransitionNetwork T)
+	public void execute(TransitionNetwork T, Score S)
 	{
 		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
 		 * 	Output: Nres
@@ -20,15 +22,25 @@ public class GHC implements Train {
 		TransitionNetwork nRes=T, nMax, nTemp = nRes;
 		while(true){
 			nMax = calcMaxNeighbourhood(nTemp);
-			if(scoring(new LL(), nTemp) > scoring(new LL(),nMax))
-				nMax = randomRestart();
-			if(scoring(new LL(), nMax) > scoring(new LL(), nRes))
+			if(scoring(S, nTemp) > scoring(S,nMax))
+				nMax = randomRestart(T);
+			if(scoring(S, nMax) > scoring(S, nRes))
 				nRes = nMax;
 			nTemp = nMax;
 		}
 	}
 	
-	public TransitionNetwork randomRestart(){
+	public TransitionNetwork randomRestart(TransitionNetwork T){
+		int nrNodes = T.nrNodes();
+		int half = nrNodes/2;
+		TransitionNetwork newT;
+		Node[] past = new Node[half];
+		Node[] present = new Node[half];
+		Random rand = new Random();
+		
+		for(int i=0; i<nrNodes; i++){
+			
+		}
 		
 		return null;
 	}
