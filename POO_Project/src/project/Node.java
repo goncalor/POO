@@ -10,6 +10,8 @@ public class Node {
 	protected List<Node> parents;
 	/** list of children of this node */
 	protected List<Node> children;
+	/** the content for this node */
+	public Object content;
 	
 	public Node()
 	{
@@ -52,7 +54,7 @@ public class Node {
 	{
 		return this.parents.contains(p);
 	}
-	
+
 	public ListIterator<Node> getParentIterator(){
 		return parents.listIterator();
 	}

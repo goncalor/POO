@@ -21,8 +21,15 @@ public class TransitionNetwork extends Network {
 			nodes[i] = new Node();	
 	}
 	
+	/** @return the i th node in the network */
 	public Node getNode(int i) {
 		return nodes[i];
+	}
+	
+	/** @return an array containing the nodes of the network, cloned */
+	public Node[] getNodes() {
+		//TODO clone
+		return nodes;
 	}
 	
 	public boolean inNodes(Node n)	{
@@ -43,7 +50,7 @@ public class TransitionNetwork extends Network {
 
 		p.addChild(c);
 		c.addParent(p);
-		if(checkDAG())
+		if(isDAG())
 			return true;
 		p.remChild(c);
 		c.remParent(p);
@@ -76,7 +83,7 @@ public class TransitionNetwork extends Network {
 		// add it reversed
 		c.addChild(p);
 		p.addParent(c);
-		if(checkDAG())
+		if(isDAG())
 			return true;
 		p.remParent(c);
 		c.remChild(p);
@@ -108,8 +115,9 @@ public class TransitionNetwork extends Network {
 		this.checkDAG = checkMethod;
 	}
 	
-	/** checks if the network is a DAG */
-	private boolean checkDAG() {
+	/** checks if the network is a DAG 
+	 * @return {@code true} if the network is a DAG. {@code false} otherwise */
+	private boolean isDAG() {
 		return checkDAG.execute(this);
 	}
 
