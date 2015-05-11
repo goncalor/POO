@@ -1,5 +1,7 @@
 package project;
 
+import java.io.IOException;
+
 public class TransitionNetwork extends Network {
 
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
@@ -16,7 +18,7 @@ public class TransitionNetwork extends Network {
 		past = data.get(index);
 		present = data.get(index+1);
 		nodes = new Node[2*Slice.numVar];
-		checkDAG = new Tarjan();	// Tarjan is the default algorith for checkDAG()
+		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
 		
 		varDomain = data.getVarDomain();
 		
@@ -141,5 +143,28 @@ public class TransitionNetwork extends Network {
 	/** sets the method to use when training the network */
 	public void train(Train T, Score S) {
 		T.execute(this, S);
+	}
+	
+	
+	
+	/** main() for testing purposes 
+	 * @throws NodeOutOfBoundsException */
+	public static void main(String[] args) throws NodeOutOfBoundsException {
+		
+		Data data = null;
+		Parser parse = new Parser();
+		try {
+			data = parse.fromFile(new String("datasets/test01.csv"));
+		} catch (IOException e) {
+			System.out.println("No such file");
+			System.exit(-1);
+		}
+		
+		System.out.println("#Different sets of elements:\n" + data);
+		
+		TransitionNetwork tn = new TransitionNetwork(data, 0);
+		
+		tn.addEdge(tn.nodes[0], tn.nodes[1]);
+		
 	}
 }

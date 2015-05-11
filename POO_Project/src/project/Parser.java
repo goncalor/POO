@@ -24,14 +24,14 @@ public class Parser{
 	}
 	
 	public void parseData(String str, int nrCols, Data data) {
-		String[] parsedLine = str.split(",");
+		String[] parsedLine = str.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 
 		int maxValues[] = data.getVarDomain();
 		int parsedLineInt[] = new int[parsedLine.length];
 		int nrSlices = parsedLine.length/nrCols;
 		
 		for(int i=0; i< parsedLine.length; i++){
-			parsedLineInt[i] = Integer.parseInt(parsedLine[i]);
+			parsedLineInt[i] = Integer.parseInt(parsedLine[i]);	//TODO check exception
 			
 			if(parsedLineInt[i] > maxValues[i % nrCols])
 				maxValues[i % nrCols] = parsedLineInt[i];
@@ -47,7 +47,7 @@ public class Parser{
 	}
 
 	public Data parseVarNames(String s){
-		String[] temp = s.split(",");
+		String[] temp = s.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 		HashSet<String> varNames = new HashSet<String>();
 		StringBuffer names = new StringBuffer("");
 		int sizeOfString = temp.length;
