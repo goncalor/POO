@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Node {
+public class Node implements Cloneable {
 
 	/** list of parents of this node */
 	protected List<Node> parents;
@@ -60,5 +60,18 @@ public class Node {
 	}
 	public ListIterator<Node> getChildIterator(){
 		return children.listIterator();
+	}
+	
+	@Override
+	public Node clone() {
+		Node newNode = new Node();
+		for(Node n: parents) {
+			newNode.addParent(n);
+		}
+		for(Node n: children) {
+			newNode.addChild(n);
+		}
+		
+		return newNode;
 	}
 }

@@ -28,8 +28,12 @@ public class TransitionNetwork extends Network {
 	
 	/** @return an array containing the nodes of the network, cloned */
 	public Node[] getNodes() {
-		//TODO clone
-		return nodes;
+		Node[] clone = new Node[nodes.length];
+		for(int i=0; i<clone.length; i++) {
+			clone[i] = nodes[i].clone();
+		}
+		
+		return clone;
 	}
 	
 	public boolean inNodes(Node n)	{

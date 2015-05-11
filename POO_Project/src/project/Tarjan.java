@@ -27,6 +27,7 @@ public class Tarjan implements CheckDAG {
 		return false;
 	}
 
+	/** @return {@code true} if the component containing {@code n} is acyclic */
 	private boolean isDAG(Node n) {
 		((NodeInfo)n.content).visited = true;	// mark node as visited
 		((NodeInfo)n.content).inStack = true;	// put node in recursion stack
