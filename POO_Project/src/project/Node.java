@@ -54,6 +54,16 @@ public class Node implements Cloneable {
 	{
 		return this.parents.contains(p);
 	}
+	
+	/** Calculate the size of {@code parent} list*/
+	public int nrParents(){
+		return this.parents.size();
+	}
+	
+	/** Calculate the size of {@code children} list*/
+	public int nrChilds(){
+		return this.children.size();
+	}
 
 	public ListIterator<Node> getParentIterator(){
 		return parents.listIterator();

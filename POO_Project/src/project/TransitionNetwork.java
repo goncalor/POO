@@ -7,6 +7,7 @@ public class TransitionNetwork extends Network {
 	CheckStructure checkDAG;
 	private Slice past;
 	private Slice present;
+	int[] varDomain;
 	
 	/** */
 	public TransitionNetwork(Data data, int index) {
@@ -16,6 +17,8 @@ public class TransitionNetwork extends Network {
 		present = data.get(index+1);
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorith for checkDAG()
+		
+		varDomain = data.getVarDomain();
 		
 		for(int i=0; i<nodes.length; i++)	// create nodes for this TN
 			nodes[i] = new Node();	
@@ -110,6 +113,16 @@ public class TransitionNetwork extends Network {
 	/** returns the number of elements stored in {@code Node[] nodes} */
 	public int nrNodes(){
 		return this.nodes.length;
+	}
+	
+	/** returns the number of parent nodes in {@code nodes[i]} */
+	public int nrParents(int i){
+		return this.nodes[i].nrParents();
+	}
+	
+	/** returns the number of children nodes in {@code nodes[i]} */
+	public int nrChildren(int i){
+		return this.nodes[i].nrChilds();
 	}
 
 	/** sets the method to use when checking if the network is a DAG during 

@@ -19,6 +19,7 @@ public class GHC implements Train {
 		 * 	return Nres
 		 */
 		
+		// we can also store the values of scoring and have nMax be a parameter so that we can return the score in order to not have to compute it again
 		TransitionNetwork nRes=T, nMax, nTemp = nRes;
 		while(true){
 			nMax = calcMaxNeighbourhood(nTemp);
@@ -46,11 +47,18 @@ public class GHC implements Train {
 	}
 	
 	public TransitionNetwork calcMaxNeighbourhood(TransitionNetwork nInit){
-		Node tempNode;
+		Node[] tempNode = nInit.getNodes();
+		int loop_count = nInit.nrNodes();
 		
-		for(int i=0; i<nInit.nrNodes(); i++){
-			tempNode = nInit.getNode(i);
+		for(int i=0; i<loop_count; i++){
+			//insert iteration over all lists on Node
+			//add -> compute score -> store value -> rem [over all nodes]
+			//rem -> compute socre -> store value -> add [over all nodes]
+			//inv -> compute score -> store value -> inv [over all nodes]
+			//storing the value is just [int(0,1,2), node parent,node child]
 		}
+		
+		// return the struct with the best operation
 		
 		return null;
 	}
