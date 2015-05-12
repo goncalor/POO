@@ -1,11 +1,11 @@
 package project;
 
-import java.util.ListIterator;
+import java.util.Iterator;
 
 /** checks if a network is a DAG using an algorithm based on Tarjan algorithm */
 public class Tarjan implements CheckDAG {
 
-	private Node[] nodes;
+	private Node<NodeInfo>[] nodes;
 	
 	/** a modified implementation of Tarjan's algorithm to check if a TransitionNetwork is a DAG */
 	@Override
@@ -28,13 +28,13 @@ public class Tarjan implements CheckDAG {
 	}
 
 	/** @return {@code true} if the component containing {@code n} is acyclic */
-	private boolean isDAG(Node n) {
+	private boolean isDAG(Node<NodeInfo> n) {
 		((NodeInfo)n.content).visited = true;	// mark node as visited
 		((NodeInfo)n.content).inStack = true;	// put node in recursion stack
-		Node child;
+		Node<NodeInfo> child;
 		
 		// recurse to unvisited children
-		for(ListIterator<Node> iter=n.iterator(); iter.hasNext(); ) {
+		for(Iterator<Node<NodeInfo>> iter = n.iterator(); iter.hasNext(); ) {
 			child = iter.next();
 			if(((NodeInfo)child.content).visited == false) {	// unvisited child
 				if(isDAG(child) == false)

@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		String s = new String("datasets/test0.csv");
+		String s = new String("datasets/test00.csv");
 		Data data;
 		Parser parse = new Parser();
 		data = parse.fromFile(s);

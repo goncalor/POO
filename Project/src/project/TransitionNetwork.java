@@ -1,35 +1,38 @@
 package project;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
 public class TransitionNetwork extends Network {
 
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
-	private Node[] nodes;
+	private Node<int[]>[] nodes;
 	CheckStructure checkDAG;
 	private Slice past;
 	private Slice present;
 	int[] varDomain;
 	
 	/** */
+	@SuppressWarnings("unchecked")
 	public TransitionNetwork(Data data, int index) {
 		
 		//TODO verify if a slice for index+1 exists
 		past = data.get(index);
 		present = data.get(index+1);
-		nodes = new Node[2*Slice.numVar];
+		nodes = (Node<int[]>[]) new Node<?>[2*Slice.numVar];
+		
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
 		
 		varDomain = data.getVarDomain();
 		
 		for(int i=0; i<nodes.length; i++)	// create nodes for this TN
-			nodes[i] = new Node();	
+			nodes[i] = new Node<int[]>();
 	}
 	
 	/** @return the i th node in the network */
-	public Node getNode(int i) {
+	public Node<int[]> getNode(int i) {
 		return nodes[i];
 	}
 	
@@ -45,8 +48,8 @@ public class TransitionNetwork extends Network {
 	}
 	
 	/** @return {@code true} if {@code n} is in this network */
-	public boolean inNodes(Node n)	{
-		for(Node node: nodes) {
+	public boolean inNodes(Node<int[]> n)	{
+		for(Node<int[]> node: nodes) {
 			if(node == n)
 				return true;
 		}

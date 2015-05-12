@@ -1,33 +1,33 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
-public class Node {
+public class Node<T> {
 
 	/** list of neighbours of this node */
-	protected List<Node> edges;
+	protected List<Node<T>> edges;
 	/** the content for this node */
-	public Object content;
+	public T content;
 
 	public Node() {
-		edges = new ArrayList<Node>();
+		edges = new ArrayList<Node<T>>();
 	}
 
 	/** add edge from this node to {@code node} */
-	public void addEdge(Node node) {
+	public void addEdge(Node<T> node) {
 		edges.add(node);
 	}
 
 	/** remove edge from this node to {@code node}, if it exists */
-	public void remEdge(Node node) {
+	public void remEdge(Node<T> node) {
 		edges.remove(node);
 	}
 
 	/** @return true if there is an edge from this node to {@code node} */
-	public boolean isEdge(Node node) {
+	public boolean isEdge(Node<T> node) {
 		return this.edges.contains(node);
 	}
 
@@ -35,17 +35,17 @@ public class Node {
 	public int nrEdges() {
 		return this.edges.size();
 	}
-
-	public ListIterator<Node> iterator() {
+	
+	public Iterator<Node<T>> iterator() {
 		return edges.listIterator();
 	}
 
-	public Node clone(Map<Node, Node> isomorphism) {
-		Node copy = isomorphism.get(this);	// this contains the reference of this node
+	public Node<T> clone(Map<Node<T>, Node<T>> isomorphism) {
+		Node<T> copy = isomorphism.get(this);	// this contains the reference of this node
 		if (copy == null) {
-			copy = new Node();
+			copy = new Node<T>();
 			isomorphism.put(this, copy);
-			for (Node edge : edges) {
+			for (Node<T> edge : edges) {
 				copy.edges.add(edge.clone(isomorphism));
 				copy.content = this.content;
 			}
