@@ -19,7 +19,7 @@ public class Tarjan implements CheckDAG {
 		}
 		
 		// apply algorithm to all connected graph components
-		for(int i=0; ((NodeInfo)nodes[i].content).visited == false; i++) {
+		for(int i=0; i<nodes.length && ((NodeInfo)nodes[i].content).visited == false; i++) {
 			if(isDAG(nodes[i]) == false)
 				return false;
 		}
@@ -36,9 +36,10 @@ public class Tarjan implements CheckDAG {
 		// recurse to unvisited children
 		for(ListIterator<Node> iter=n.iterator(); iter.hasNext(); ) {
 			child = iter.next();
-			if(((NodeInfo)child.content).visited == false)	// unvisited child
+			if(((NodeInfo)child.content).visited == false) {	// unvisited child
 				if(isDAG(child) == false)
 					return false;
+			}
 			else if(((NodeInfo)child.content).inStack == true)	// came back to a node that is in the stack. this is not a DAG!
 				return false;
 		}
