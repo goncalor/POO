@@ -11,7 +11,7 @@ public class Tarjan implements CheckDAG {
 	@Override
 	public boolean execute(TransitionNetwork network) {
 
-		nodes = network.getNodes();
+		nodes = network.cloneNodes();
 		
 		// initialise nodes with info necessary for the algorithm
 		for(int i=0; i<nodes.length; i++) {
@@ -24,7 +24,7 @@ public class Tarjan implements CheckDAG {
 				return false;
 		}
 		
-		return false;
+		return true;
 	}
 
 	/** @return {@code true} if the component containing {@code n} is acyclic */
@@ -41,7 +41,6 @@ public class Tarjan implements CheckDAG {
 					return false;
 			else if(((NodeInfo)child.content).inStack == true)	// came back to a node that is in the stack. this is not a DAG!
 				return false;
-			
 		}
 		
 		((NodeInfo)n.content).inStack = false;

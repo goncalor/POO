@@ -1,6 +1,8 @@
 package project;
 
 import java.io.IOException;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class TransitionNetwork extends Network {
 
@@ -32,15 +34,17 @@ public class TransitionNetwork extends Network {
 	}
 	
 	/** @return an array containing the nodes of the network, cloned */
-	public Node[] getNodes() {
+	public Node[] cloneNodes () {
 		Node[] clone = new Node[nodes.length];
+		Map<Node, Node> isomorphism = new IdentityHashMap<Node, Node>();
 		for(int i=0; i<clone.length; i++) {
-			clone[i] = nodes[i].clone();
+			clone[i] = nodes[i].clone(isomorphism);
 		}
 		
 		return clone;
 	}
 	
+	/** @return {@code true} if {@code n} is in this network */
 	public boolean inNodes(Node n)	{
 		for(Node node: nodes) {
 			if(node == n)
@@ -49,56 +53,56 @@ public class TransitionNetwork extends Network {
 		return false;
 	}
 	
-	/** adds a directed edge from {@code p} to {@code c} if this does not disrupt the
+	/** adds a directed edge from {@code from} to {@code to} if this does not disrupt the
 	 * the property of the TN being a DAG
 	 * @return {@code true} if the edge was added */
 	@Override
-	public boolean addEdge(Node p, Node c) throws NodeOutOfBoundsException {
-		if(!inNodes(p) || !inNodes(c))
+	public boolean addEdge(Node from, Node to) throws NodeOutOfBoundsException {
+		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 
-		p.addEdge(c);
+		from.addEdge(to);
 		if(isDAG())
 			return true;
-		p.remEdge(c);
+		from.remEdge(to);
 		return false;
 	}
 
-	/** removes a directed edge from {@code p} to {@code c}
+	/** removes a directed edge from {@code from} to {@code to}
 	 * @return {@code true} */
 	@Override
-	public boolean remEdge(Node p, Node c) throws NodeOutOfBoundsException {
-		if(!inNodes(p) || !inNodes(c))
+	public boolean remEdge(Node from, Node to) throws NodeOutOfBoundsException {
+		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
-		p.remEdge(c);
+		from.remEdge(to);
 		return true;
 	}
 
-	/** inverts an edge from {@code p} to {@code c} if this does not disrupt the
+	/** inverts an edge from {@code from} to {@code to} if this does not disrupt the
 	 * the property of the TN being a DAG
 	 * @return {@code true} if the edge was inverted */
 	@Override
-	public boolean invEdge(Node p, Node c) throws NodeOutOfBoundsException {
-		if(!inNodes(p) || !inNodes(c))
+	public boolean invEdge(Node from, Node to) throws NodeOutOfBoundsException {
+		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
-		p.remEdge(c);
-		c.addEdge(p);
+		from.remEdge(to);
+		to.addEdge(from);
 		if(isDAG())
 			return true;
-		c.remEdge(p);
-		p.addEdge(c);
+		to.remEdge(from);
+		from.addEdge(to);
 		return false;
 	}
 	
-	/** @return {@code true} if a directed edge exists from {@code p} to {@code c} */
+	/** @return {@code true} if a directed edge exists from {@code from} to {@code to} */
 	@Override
-	public boolean existsEdge(Node p, Node c) throws NodeOutOfBoundsException {
-		if(!inNodes(p) || !inNodes(c))
+	public boolean existsEdge(Node from, Node to) throws NodeOutOfBoundsException {
+		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
-		if(p.isEdge(c))
+		if(from.isEdge(to))
 			return true;
 		return false;
 	}
@@ -150,7 +154,12 @@ public class TransitionNetwork extends Network {
 		
 		TransitionNetwork tn = new TransitionNetwork(data, 0);
 		
-		tn.addEdge(tn.nodes[0], tn.nodes[1]);
+		boolean retval;
+		retval = tn.addEdge(tn.nodes[0], tn.nodes[1]);
+		System.out.println(retval);
+		
+		retval = tn.addEdge(tn.nodes[1], tn.nodes[0]);
+		System.out.println(retval);
 		
 	}
 }
