@@ -6,81 +6,49 @@ import java.util.ListIterator;
 
 public class Node implements Cloneable {
 
-	/** list of parents of this node */
-	protected List<Node> parents;
-	/** list of children of this node */
-	protected List<Node> children;
+	/** list of neighbours of this node */
+	protected List<Node> edges;
 	/** the content for this node */
 	public Object content;
 	
 	public Node()
 	{
-		parents = new ArrayList<Node>();
-		children = new ArrayList<Node>();
+		edges = new ArrayList<Node>();
 	}
 	
-	/** add parent {@code p} to this node */
-	public void addParent(Node p)
+	/** add edge from this node to {@code node} */
+	public void addEdge(Node node)
 	{
-		parents.add(p);
+		edges.add(node);
 	}
-	
-	/** remove parent {@code p} from this node, if {@code p} is a parent */
-	public void remParent(Node p)
+		
+	/** remove edge from this node to {@code node}, if it exists */
+	public void remEdge(Node node)
 	{
-		parents.remove(p);
-	}
-	
-	/** add child {@code c} to this node */
-	public void addChild(Node c)
-	{
-		children.add(c);
-	}
-	
-	/** remove child {@code c} from this node, if {@code c} is a child */
-	public void remChild(Node c)
-	{
-		children.remove(c);
-	}
-	
-	/** checks if {@code c} is a parent of this node */
-	public boolean isParent(Node c)
-	{
-		return this.children.contains(c);
-	}
-	
-	/** check if {@code p} is a child of this node */
-	public boolean isChild(Node p)
-	{
-		return this.parents.contains(p);
-	}
-	
-	/** Calculate the size of {@code parent} list*/
-	public int nrParents(){
-		return this.parents.size();
-	}
-	
-	/** Calculate the size of {@code children} list*/
-	public int nrChilds(){
-		return this.children.size();
+		edges.remove(node);
 	}
 
-	public ListIterator<Node> getParentIterator(){
-		return parents.listIterator();
+	/** @return true if there is an edge from this node to {@code node} */
+	public boolean isEdge(Node node)
+	{
+		return this.edges.contains(node);
 	}
-	public ListIterator<Node> getChildIterator(){
-		return children.listIterator();
+	
+	/** @return the out-degree or this node */
+	public int nrEdges(){
+		return this.edges.size();
+	}
+
+	public ListIterator<Node> iterator(){
+		return edges.listIterator();
 	}
 	
 	@Override
 	public Node clone() {
 		Node newNode = new Node();
-		for(Node n: parents) {
-			newNode.addParent(n);
-		}
-		for(Node n: children) {
-			newNode.addChild(n);
-		}
+		newNode.content = this.content;
+		for(Node edge: edges)
+			newNode.addEdge(edge);
 		
 		return newNode;
 	}

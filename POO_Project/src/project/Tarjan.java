@@ -34,7 +34,7 @@ public class Tarjan implements CheckDAG {
 		Node child;
 		
 		// recurse to unvisited children
-		for(ListIterator<Node> iter=n.getChildIterator(); iter.hasNext(); ) {
+		for(ListIterator<Node> iter=n.iterator(); iter.hasNext(); ) {
 			child = iter.next();
 			if(((NodeInfo)child.content).visited == false)	// unvisited child
 				if(isDAG(child) == false)

@@ -57,12 +57,10 @@ public class TransitionNetwork extends Network {
 		if(!inNodes(p) || !inNodes(c))
 			throw new NodeOutOfBoundsException();
 
-		p.addChild(c);
-		c.addParent(p);
+		p.addEdge(c);
 		if(isDAG())
 			return true;
-		p.remChild(c);
-		c.remParent(p);
+		p.remEdge(c);
 		return false;
 	}
 
@@ -73,8 +71,7 @@ public class TransitionNetwork extends Network {
 		if(!inNodes(p) || !inNodes(c))
 			throw new NodeOutOfBoundsException();
 		
-		p.remChild(c);
-		c.remParent(p);
+		p.remEdge(c);
 		return true;
 	}
 
@@ -86,18 +83,12 @@ public class TransitionNetwork extends Network {
 		if(!inNodes(p) || !inNodes(c))
 			throw new NodeOutOfBoundsException();
 		
-		// remove edge one way
-		p.remChild(c);
-		c.remParent(p);
-		// add it reversed
-		c.addChild(p);
-		p.addParent(c);
+		p.remEdge(c);
+		c.addEdge(p);
 		if(isDAG())
 			return true;
-		p.remParent(c);
-		c.remChild(p);
-		c.addParent(p);
-		p.addChild(c);
+		c.remEdge(p);
+		p.addEdge(c);
 		return false;
 	}
 	
@@ -107,24 +98,19 @@ public class TransitionNetwork extends Network {
 		if(!inNodes(p) || !inNodes(c))
 			throw new NodeOutOfBoundsException();
 		
-		if(p.isParent(c) && c.isChild(p))
+		if(p.isEdge(c))
 			return true;
 		return false;
 	}
 	
-	/** returns the number of elements stored in {@code Node[] nodes} */
+	/** @return the number of elements stored in the network */
 	public int nrNodes(){
 		return this.nodes.length;
 	}
 	
-	/** returns the number of parent nodes in {@code nodes[i]} */
-	public int nrParents(int i){
-		return this.nodes[i].nrParents();
-	}
-	
-	/** returns the number of children nodes in {@code nodes[i]} */
-	public int nrChildren(int i){
-		return this.nodes[i].nrChilds();
+	/** @return the out-degree of the {@code i}th node */
+	public int nrEdges(int i){
+		return this.nodes[i].nrEdges();
 	}
 
 	/** sets the method to use when checking if the network is a DAG during 
