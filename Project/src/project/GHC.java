@@ -37,17 +37,17 @@ public class GHC implements Train {
 		Random rand = new Random();
 		
 		for(int i=0; i<half; i++){
-			past[i].addParent(present[rand.nextInt()%half]);
-			present[i].addParent(present[rand.nextInt()%half]);
-			present[i].addParent(past[rand.nextInt()%half]);
-			present[i].addChild(present[rand.nextInt()%half]);
+//			past[i].addParent(present[rand.nextInt()%half]);
+//			present[i].addParent(present[rand.nextInt()%half]);
+//			present[i].addParent(past[rand.nextInt()%half]);
+//			present[i].addChild(present[rand.nextInt()%half]);
 		}
 		
 		return null;
 	}
 	
 	public TransitionNetwork calcMaxNeighbourhood(TransitionNetwork nInit){
-		Node[] tempNode = nInit.getNodes();
+//		Node[] tempNode = nInit.getNodes();
 		int loop_count = nInit.nrNodes();
 		
 		for(int i=0; i<loop_count; i++){
