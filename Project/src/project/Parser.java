@@ -6,8 +6,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Arrays;
 
+/** parses {@link project.Data} from a *.csv file */
 public class Parser{
 	
+	/** opens *.csv file {@code fileName} for parsing 
+	 * @param      fileName   the path to the file to be parsed 
+	 * @return     the information extracted from {@code fileName} 
+	 * @throws     IOException   if an error occurred when opening or reading {@code fineName} */
 	public Data fromFile(String fileName) throws IOException{
 		BufferedReader input = new BufferedReader(new FileReader(fileName));
 		String str;
@@ -23,6 +28,10 @@ public class Parser{
 		return data;
 	}
 	
+	/** parses one line of the *.csv file other than the first 
+	 * @param str         the line to parse 
+	 * @param nrCols      the number of slices to parse from {@code str} 
+	 * @param data        where the data is saved for each file line that is parsed */
 	public void parseData(String str, int nrCols, Data data) {
 		String[] parsedLine = str.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 
@@ -46,6 +55,9 @@ public class Parser{
 		
 	}
 
+	/** parses the first string in the *.csv file 
+	 * @param s      a string of the form {@code a_0, b_0, c_0, ..., a_1, b_1, c_1, ... }. This should be the first line in the *.csv file 
+	 * @return       an incomplete {@link project.Data} instance with information about the variable names and number of slices */
 	public Data parseVarNames(String s){
 		String[] temp = s.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 		HashSet<String> varNames = new HashSet<String>();

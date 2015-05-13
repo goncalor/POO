@@ -10,16 +10,22 @@ public class TransitionNetwork extends Network {
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
 	private Node[] nodes;
 	CheckStructure checkDAG;
-//	private Slice sliceT;
-//	private Slice sliceT1;
 	int[] varDomain;
 	
-	/** */
-	public TransitionNetwork(Data data, int index) {
+	/** creates a new transition network from the slices in {@code index} and {@code index+1} in the data {@code data}
+	 * @throws NodeOutOfBoundsException  */
+	public TransitionNetwork(Data data, int index) throws NodeOutOfBoundsException {
+		Slice sliceT;
+		Slice sliceT1;
 		
-		//TODO verify if a slice for index+1 exists
-		Slice sliceT = data.get(index);
-		Slice sliceT1 = data.get(index+1);
+		try {
+			sliceT = data.get(index);
+			sliceT1 = data.get(index+1);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			throw new NodeOutOfBoundsException();
+		}
+		
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
 		
