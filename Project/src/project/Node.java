@@ -11,11 +11,23 @@ public class Node {
 	protected List<Node> edges;
 	/** the content for this node */
 	public Object content;
+	/** index for current node in TN*/
+	protected int selfIndex;
 
 	public Node() {
 		edges = new ArrayList<Node>();
 	}
 
+	/** Set index*/
+	public void setIndex(int a){
+		this.selfIndex = a;
+	}
+	
+	/** Get index*/
+	public int getIndex(){
+		return this.selfIndex;
+	}
+	
 	/** add edge from this node to {@code node} */
 	public void addEdge(Node node) {
 		edges.add(node);

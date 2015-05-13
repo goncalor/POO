@@ -33,6 +33,7 @@ public class TransitionNetwork extends Network {
 		
 		for(int i=0; i<nodes.length; i++) {	// create nodes for this TN
 			nodes[i] = new Node();
+			nodes[i].setIndex(i);
 		}
 		
 		for(int i=0; i<nodes.length/2; i++) {	// create nodes for this TN

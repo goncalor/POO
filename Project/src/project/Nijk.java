@@ -1,6 +1,23 @@
 package project;
 
+
+/**
+ * This class consists exclusively of static methods to calculate the Nijk parameters of a certain
+ * {@code Node}.
+ * <p> This class is intended to be used when you have a certain {@code Node} and a parent configuration of that {@code Node}
+ * and you wish to calculate the Nijk parameters of that Node, in general you need to iterate over all {@code Node}'s and
+ * call {@code Nijk.calcNijk(int, int[], int[], int...)}.
+ * @see Node
+ *
+ */
 public class Nijk {
+	/**
+	 * Converts a parent configuration into a simple integer in order to be arranged into a single matrix.
+	 * 
+	 * @param ji - parent configuration
+	 * @param maxValues - maximum values of the parents {@code ji}
+	 * @return j - integer that matches the configuration given
+	 */
 	public static int convertJitoJ(int[] ji, int[] maxValues){
 		int j;
 		j = ji[0];
@@ -16,6 +33,15 @@ public class Nijk {
 		return j;
 	}
 
+	/**
+	 * Converts a simplified parent configuration into the actual parent configuration that generated it, can be considered the inverse
+	 * function of {@code Nijk.convertJitoJ(int[], int[])}.
+	 * 
+	 * @param j - simplified parent configuration
+	 * @param maxValues - maximum values of parents
+	 * @return ji - original parent configuration
+	 */
+	
 	public static int[] convertJtoJi(int j, int[] maxValues){
 		int jAux=j;
 		int[] ji = new int[maxValues.length];
@@ -27,6 +53,16 @@ public class Nijk {
 		ji[0] = jAux;
 		return ji;
 	}
+	
+	/**
+	 * Calculates the number of instances where the variable {@code xi[]} takes its k-th value
+from {@code [0-maxValue]} and the variables in {@code parents} take their j-th configuration from {@code [0-maxValuesParents[j]]}
+	 * @param maxValue - Maximum possible value of xi dataset
+	 * @param xi - xi dataset
+	 * @param maxValuesParents - Maximum possible value of parents dataset
+	 * @param parents - parents dataset
+	 * @return nijk[][]
+	 */
 
 	public static int[][] calcNijk(int maxValue, int[] xi,int[] maxValuesParents, int[]...parents){
 		int[] tempVals = {1,1,2};
