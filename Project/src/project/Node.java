@@ -1,21 +1,21 @@
 package project;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class Node {
 
 	/** list of neighbours of this node */
-	protected List<Node> edges;
+	protected Set<Node> edges;
 	/** the content for this node */
 	public Object content;
 	/** index for current node in TN*/
 	protected int selfIndex;
 
 	public Node() {
-		edges = new ArrayList<Node>();
+		edges = new HashSet<Node>();
 	}
 
 	/** Set index*/
@@ -48,8 +48,8 @@ public class Node {
 		return this.edges.size();
 	}
 
-	public ListIterator<Node> iterator() {
-		return edges.listIterator();
+	public Iterator<Node> iterator() {
+		return edges.iterator();
 	}
 
 	public Node clone(Map<Node, Node> isomorphism) {

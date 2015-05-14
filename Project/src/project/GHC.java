@@ -20,7 +20,7 @@ public class GHC implements Train {
 		 */
 		
 		// we can also store the values of scoring and have nMax be a parameter so that we can return the score in order to not have to compute it again
-		TransitionNetwork nRes=T, nMax, nTemp = nRes;
+//		TransitionNetwork nRes=T, nMax, nTemp = nRes;
 //		while(true){
 //			nMax = calcMaxNeighbourhood(nTemp);
 //			if(scoring(S, nMax) > scoring(S, nRes))
