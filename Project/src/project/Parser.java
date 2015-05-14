@@ -32,7 +32,7 @@ public class Parser{
 	 * @param str         the line to parse 
 	 * @param nrCols      the number of slices to parse from {@code str} 
 	 * @param data        where the data is saved for each file line that is parsed */
-	public void parseData(String str, int nrCols, Data data) {
+	private void parseData(String str, int nrCols, Data data) {
 		String[] parsedLine = str.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 
 		int maxValues[] = data.getVarDomain();
@@ -58,7 +58,7 @@ public class Parser{
 	/** parses the first string in the *.csv file 
 	 * @param s      a string of the form {@code a_0, b_0, c_0, ..., a_1, b_1, c_1, ... }. This should be the first line in the *.csv file 
 	 * @return       an incomplete {@link project.Data} instance with information about the variable names and number of slices */
-	public Data parseVarNames(String s){
+	private Data parseVarNames(String s){
 		String[] temp = s.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
 		HashSet<String> varNames = new HashSet<String>();
 		StringBuffer names = new StringBuffer("");
