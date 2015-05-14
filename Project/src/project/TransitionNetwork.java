@@ -69,12 +69,15 @@ public class TransitionNetwork extends Network {
 	
 	/** adds a directed edge from {@code from} to {@code to} if this does not disrupt the
 	 * the property of the TN being a DAG
-	 * @return {@code true} if the edge was added */
+	 * @return {@code true} if the edge was added. {@code false} if adding would make the 
+	 * network not be a DAG or if one edge already exists between {@code from} and {@code to} */
 	@Override
 	public boolean addEdge(Node from, Node to) throws NodeOutOfBoundsException {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 
+		if(existsEdge(from, to))
+			return false;
 		from.addEdge(to);
 		if(isDAG())
 			return true;
@@ -83,24 +86,30 @@ public class TransitionNetwork extends Network {
 	}
 
 	/** removes a directed edge from {@code from} to {@code to}
-	 * @return {@code true} */
+	 * @return {@code true} if the edge the edge was removed. {@code false}
+	 * if there was no edge to remove */
 	@Override
 	public boolean remEdge(Node from, Node to) throws NodeOutOfBoundsException {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
+		if(!existsEdge(from, to))
+			return false;
 		from.remEdge(to);
 		return true;
 	}
 
 	/** inverts an edge from {@code from} to {@code to} if this does not disrupt the
 	 * the property of the TN being a DAG
-	 * @return {@code true} if the edge was inverted */
+	 * @return {@code true} if the edge was inverted. {@code false} if there was no edge
+	 * to invert of if inverting it would make the network not be a DAG */
 	@Override
 	public boolean invEdge(Node from, Node to) throws NodeOutOfBoundsException {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
+		if(!existsEdge(from, to))
+			return false;
 		from.remEdge(to);
 		to.addEdge(from);
 		if(isDAG())
@@ -190,6 +199,8 @@ public class TransitionNetwork extends Network {
 				
 		/* transition from t=1 to t=2 */
 		
-		TransitionNetwork tn1 = new TransitionNetwork(data, 1);
+//		TransitionNetwork tn1 = new TransitionNetwork(data, 1);
+		
+		tn.train(new GHC(), new LL());
 	}
 }

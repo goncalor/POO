@@ -3,7 +3,7 @@ package project;
 import java.util.Random;
 
 public class GHC implements Train {
-
+	
 	public void execute(TransitionNetwork T, Score S)
 	{
 		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
@@ -21,12 +21,12 @@ public class GHC implements Train {
 		
 		// we can also store the values of scoring and have nMax be a parameter so that we can return the score in order to not have to compute it again
 		TransitionNetwork nRes=T, nMax, nTemp = nRes;
-		while(true){
-			nMax = calcMaxNeighbourhood(nTemp);
-			if(scoring(S, nMax) > scoring(S, nRes))
-				nRes = nMax;
-			nTemp = nMax;
-		}
+//		while(true){
+//			nMax = calcMaxNeighbourhood(nTemp);
+//			if(scoring(S, nMax) > scoring(S, nRes))
+//				nRes = nMax;
+//			nTemp = nMax;
+//		}
 	}
 	
 	public TransitionNetwork randomRestart(TransitionNetwork T){
@@ -46,25 +46,124 @@ public class GHC implements Train {
 		return null;
 	}
 	
-	public TransitionNetwork calcMaxNeighbourhood(TransitionNetwork nInit){
-//		Node[] tempNode = nInit.getNodes();
-		int loop_count = nInit.nrNodes();
+	/** calculates the best score of the neighbours of {@code net}, using
+	 *  {@code s} as scoring criteria. {@code net} will be modified by 
+	 *  this method */
+	public float calcMaxNeighbourhood(TransitionNetwork net, Score s) throws NodeOutOfBoundsException {
+		int nrNodes = net.nrNodes();
+		float tmpScore;
+		operation op = operation.NOP;
+		int from=0, to=0;
+		float maxScore = Integer.MIN_VALUE;
 		
-		for(int i=0; i<loop_count; i++){
-			//insert iteration over all lists on Node
-			//add -> compute score -> store value -> rem [over all nodes]
-			//rem -> compute socre -> store value -> add [over all nodes]
-			//inv -> compute score -> store value -> inv [over all nodes]
-			//storing the value is just [int(0,1,2), node parent,node child]
+		// add edges from t to t+1 nodes
+		for(int t=0; t<nrNodes/2; t++) {
+			for(int t1=nrNodes; t1<nrNodes; t1++) {
+				if(net.addEdge(net.getNode(t), net.getNode(t1))) {
+					if((tmpScore = scoring(s, net)) > maxScore) {
+						maxScore = tmpScore;
+						op = operation.ADD;
+						from = t;
+						to = t1;
+					}
+					net.remEdge(net.getNode(t), net.getNode(t1));
+				}
+			}
 		}
 		
-		// return the struct with the best operation
+		// add intra-temporal edges for t+1
+		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+				if(t1_0 == t1_1)
+					continue;
+				if(net.addEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+					if((tmpScore = scoring(s, net)) > maxScore) {
+						maxScore = tmpScore;
+						op = operation.ADD;
+						from = t1_0;
+						to = t1_1;
+					}
+					net.remEdge(net.getNode(t1_0), net.getNode(t1_1));
+				}
+			}
+		}
 		
-		return null;
+		// invert intra-temporal edges
+		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+				if(t1_0 == t1_1)
+					continue;
+				if(net.invEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+					if((tmpScore = scoring(s, net)) > maxScore) {
+						maxScore = tmpScore;
+						op = operation.INV;
+						from = t1_0;
+						to = t1_1;
+					}
+					net.invEdge(net.getNode(t1_0), net.getNode(t1_1));
+				}
+			}
+		}
+		
+		// remove edges from t to t+1 nodes
+		for(int t=0; t<nrNodes/2; t++) {
+			for(int t1=nrNodes; t1<nrNodes; t1++) {
+				if(net.remEdge(net.getNode(t), net.getNode(t1))) {
+					if((tmpScore = scoring(s, net)) > maxScore) {
+						maxScore = tmpScore;
+						op = operation.REM;
+						from = t;
+						to = t1;
+					}
+					net.addEdge(net.getNode(t), net.getNode(t1));
+				}
+			}
+		}
+		
+		// remove intra-temporal edges for t+1
+		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+				if(t1_0 == t1_1)
+					continue;
+				if(net.remEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+					if((tmpScore = scoring(s, net)) > maxScore) {
+						maxScore = tmpScore;
+						op = operation.REM;
+						from = t1_0;
+						to = t1_1;
+					}
+					net.addEdge(net.getNode(t1_0), net.getNode(t1_1));
+				}
+			}
+		}
+		
+		switch(op) {
+		case ADD:
+			net.addEdge(net.getNode(from), net.getNode(to));
+			break;
+			
+		case INV:
+			net.invEdge(net.getNode(from), net.getNode(to));
+			break;
+			
+		case REM:
+			net.remEdge(net.getNode(from), net.getNode(to));
+			break;
+			
+		default:
+			break;
+		}
+		
+		return maxScore;
 	}
 	
 	public float scoring(Score S, TransitionNetwork T)
 	{
 		return S.execute(this, T);
+	}
+	
+	
+	public enum operation {
+	    ADD, REM, INV, NOP
 	}
 }
