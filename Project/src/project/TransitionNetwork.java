@@ -75,6 +75,9 @@ public class TransitionNetwork extends Network {
 	public boolean addEdge(Node from, Node to) throws NodeOutOfBoundsException {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
+		
+		if(from.selfIndex < this.nrNodes()/2)
+			return false;
 
 		if(existsEdge(from, to))
 			return false;
@@ -107,6 +110,9 @@ public class TransitionNetwork extends Network {
 	public boolean invEdge(Node from, Node to) throws NodeOutOfBoundsException {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
+
+		if(to.selfIndex < this.nrNodes()/2)
+			return false;
 		
 		if(!existsEdge(from, to))
 			return false;
