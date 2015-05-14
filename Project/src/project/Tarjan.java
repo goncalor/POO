@@ -1,6 +1,6 @@
 package project;
 
-import java.util.ListIterator;
+import java.util.Iterator;
 
 /** checks if a network is a DAG using an algorithm based on Tarjan algorithm */
 public class Tarjan implements CheckDAG {
@@ -34,7 +34,7 @@ public class Tarjan implements CheckDAG {
 		Node child;
 		
 		// recurse to unvisited children
-		for(ListIterator<Node> iter=n.iterator(); iter.hasNext(); ) {
+		for(Iterator<Node> iter=n.iterator(); iter.hasNext(); ) {
 			child = iter.next();
 			if(((NodeInfo)child.content).visited == false) {	// unvisited child
 				if(isDAG(child) == false)

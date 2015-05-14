@@ -1,6 +1,6 @@
 package project;
 
-import java.util.ListIterator;
+import java.util.Iterator;
 import java.io.IOException;
 import java.lang.Math;
 
@@ -29,7 +29,7 @@ public class LL implements Score{
 			int iterator = 0;
 			int[] parentsMax = new int[self.nrEdges()];		
 			
-			for(ListIterator<Node> iter=self.iterator(); iter.hasNext(); ){
+			for(Iterator<Node> iter=self.iterator(); iter.hasNext(); ){
 				Node parent = iter.next();
 				parents[iterator] = (int[]) parent.content;
 				parentsMax[iterator] = T.varDomain[parent.getIndex()%T.varDomain.length];
