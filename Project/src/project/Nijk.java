@@ -65,8 +65,7 @@ from {@code [0-maxValue]} and the variables in {@code parents} take their j-th c
 	 */
 
 	public static int[][] calcNijk(int maxValue, int[] xi,int[] maxValuesParents, int[]...parents){
-		int[] tempVals = {1,1,2};
-		int parentSize = Nijk.convertJitoJ(tempVals,maxValuesParents)+1;
+		int parentSize = Nijk.convertJitoJ(maxValuesParents,maxValuesParents)+1;
 		int[][] nijk = new int[parentSize][maxValue+1];
 		int[] parentConfig = new int[parents.length];
 		int jVal=0;
@@ -75,24 +74,59 @@ from {@code [0-maxValue]} and the variables in {@code parents} take their j-th c
 			for(int j=0; j<parents.length;j++){
 				parentConfig[j] = parents[j][i];
 			}
-			System.out.print("[");
-			for(int x : parentConfig)
-				System.out.print(x);
-			System.out.print("] - ");
+//			System.out.print("[");
+//			for(int x : parentConfig)
+//				System.out.print(x);
+//			System.out.print("] - ");
 
 			jVal = Nijk.convertJitoJ(parentConfig, maxValuesParents);
-			System.out.println(xi[i]);
+//			System.out.println(xi[i]);
 
 			nijk[jVal][xi[i]]++;
 
-			System.out.print("[ ");
-			for(int[] a : nijk){
-				for(int b : a)
-					System.out.print(b);
-				System.out.print(" ");
-			}
-			System.out.println("]");
+//			System.out.print("[ ");
+//			for(int[] a : nijk){
+//				for(int b : a)
+//					System.out.print(b);
+//				System.out.print(" ");
+//			}
+//			System.out.println("]");
 		}
+
+		return nijk;
+	}
+	/**
+	 * Calculates the number of instances where the variable {@code xi[]} takes its k-th value
+from {@code [0-maxValue]} and the variables in {@code parents} take their j-th configuration from {@code [0-maxValuesParents[j]]}
+	 * @param maxValue - Maximum possible value of xi dataset
+	 * @param xi - xi dataset
+	 * @param maxValuesParents - Maximum possible value of parents dataset
+	 * @param parents - parents dataset
+	 * @return nijk[][]
+	 */
+
+	public static int[][] calcNijk(int maxValue, int[] xi){
+		int parentSize = 0;
+		int[][] nijk = new int[parentSize+1][maxValue+1];
+		int jVal=0;
+
+		for(int i=0; i<xi.length; i++){
+//			System.out.print("[");
+//			for(int x : parentConfig)
+//				System.out.print(x);
+//			System.out.print("] - ");
+			
+			nijk[jVal][xi[i]]++;
+
+//			System.out.print("[ ");
+//			for(int[] a : nijk){
+//				for(int b : a)
+//					System.out.print(b);
+//				System.out.print(" ");
+//			}
+//			System.out.println("]");
+		}
+		System.out.println();
 
 		return nijk;
 	}

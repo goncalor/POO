@@ -1,7 +1,4 @@
 package project;
-
-import java.util.Random;
-
 public class GHC implements Train {
 
 	public void execute(TransitionNetwork T, Score S)
@@ -32,9 +29,9 @@ public class GHC implements Train {
 	public TransitionNetwork randomRestart(TransitionNetwork T){
 		int nrNodes = T.nrNodes();
 		int half = nrNodes/2;
-		Node[] past = new Node[half];
-		Node[] present = new Node[half];
-		Random rand = new Random();
+//		Node[] past = new Node[half];
+//		Node[] present = new Node[half];
+//		Random rand = new Random();
 		
 		for(int i=0; i<half; i++){
 //			past[i].addParent(present[rand.nextInt()%half]);

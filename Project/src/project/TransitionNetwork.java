@@ -190,6 +190,6 @@ public class TransitionNetwork extends Network {
 				
 		/* transition from t=1 to t=2 */
 		
-		TransitionNetwork tn1 = new TransitionNetwork(data, 1);
+//		TransitionNetwork tn1 = new TransitionNetwork(data, 1);
 	}
 }
