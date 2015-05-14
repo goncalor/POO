@@ -29,21 +29,33 @@ public class GHC implements Train {
 //		}
 	}
 	
-	public TransitionNetwork randomRestart(TransitionNetwork T){
-		int nrNodes = T.nrNodes();
-		int half = nrNodes/2;
-		Node[] past = new Node[half];
-		Node[] present = new Node[half];
+	public TransitionNetwork randomRestart(TransitionNetwork net) {
+		TransitionNetwork newnet = net.cloneResetEdges();
+		int nrNodes = newnet.nrNodes();
 		Random rand = new Random();
+		int nrEdgesInter = rand.nextInt(nrNodes/2+1);
+		// (N-1) + (N-2) + .. + 1 + 0 == (N-1)(N)/2 is the max number of edges that can be in a DAG
+		int nrEdgesIntra = rand.nextInt((nrNodes-1)*(nrNodes)/2);
 		
-		for(int i=0; i<half; i++){
-//			past[i].addParent(present[rand.nextInt()%half]);
-//			present[i].addParent(present[rand.nextInt()%half]);
-//			present[i].addParent(past[rand.nextInt()%half]);
-//			present[i].addChild(present[rand.nextInt()%half]);
+		// add random edges from t to t+1 (in fact from t+1 to t, because we point to parents)
+		for(int inter=0; inter<nrEdgesInter; inter++) {
+			try {
+				newnet.addEdge(newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)), newnet.getNode(rand.nextInt(nrNodes/2)));
+			} catch (NodeOutOfBoundsException e) {
+				continue;
+			}
 		}
 		
-		return null;
+		// add random edged in time t+1
+		for(int intra=0; intra<nrEdgesIntra; intra++) {
+			try {
+				newnet.addEdge(newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)), newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)));
+			} catch (NodeOutOfBoundsException e) {
+				continue;
+			}
+		}
+		
+		return newnet;
 	}
 	
 	/** calculates the best score of the neighbours of {@code net}, using
@@ -59,14 +71,14 @@ public class GHC implements Train {
 		// add edges from t to t+1 nodes
 		for(int t=0; t<nrNodes/2; t++) {
 			for(int t1=nrNodes; t1<nrNodes; t1++) {
-				if(net.addEdge(net.getNode(t), net.getNode(t1))) {
+				if(net.addEdge(net.getNode(t1), net.getNode(t))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
 						op = operation.ADD;
-						from = t;
-						to = t1;
+						from = t1;
+						to = t;
 					}
-					net.remEdge(net.getNode(t), net.getNode(t1));
+					net.remEdge(net.getNode(t1), net.getNode(t));
 				}
 			}
 		}
@@ -76,14 +88,14 @@ public class GHC implements Train {
 			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
-				if(net.addEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+				if(net.addEdge(net.getNode(t1_1), net.getNode(t1_0))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
 						op = operation.ADD;
-						from = t1_0;
-						to = t1_1;
+						from = t1_1;
+						to = t1_0;
 					}
-					net.remEdge(net.getNode(t1_0), net.getNode(t1_1));
+					net.remEdge(net.getNode(t1_1), net.getNode(t1_0));
 				}
 			}
 		}
@@ -93,14 +105,14 @@ public class GHC implements Train {
 			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
-				if(net.invEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+				if(net.invEdge(net.getNode(t1_1), net.getNode(t1_0))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
 						op = operation.INV;
-						from = t1_0;
-						to = t1_1;
+						from = t1_1;
+						to = t1_0;
 					}
-					net.invEdge(net.getNode(t1_0), net.getNode(t1_1));
+					net.invEdge(net.getNode(t1_1), net.getNode(t1_0));
 				}
 			}
 		}
@@ -108,14 +120,14 @@ public class GHC implements Train {
 		// remove edges from t to t+1 nodes
 		for(int t=0; t<nrNodes/2; t++) {
 			for(int t1=nrNodes; t1<nrNodes; t1++) {
-				if(net.remEdge(net.getNode(t), net.getNode(t1))) {
+				if(net.remEdge(net.getNode(t1), net.getNode(t))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
 						op = operation.REM;
-						from = t;
-						to = t1;
+						from = t1;
+						to = t;
 					}
-					net.addEdge(net.getNode(t), net.getNode(t1));
+					net.addEdge(net.getNode(t1), net.getNode(t));
 				}
 			}
 		}
@@ -125,14 +137,14 @@ public class GHC implements Train {
 			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
-				if(net.remEdge(net.getNode(t1_0), net.getNode(t1_1))) {
+				if(net.remEdge(net.getNode(t1_1), net.getNode(t1_0))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
 						op = operation.REM;
-						from = t1_0;
-						to = t1_1;
+						from = t1_1;
+						to = t1_0;
 					}
-					net.addEdge(net.getNode(t1_0), net.getNode(t1_1));
+					net.addEdge(net.getNode(t1_1), net.getNode(t1_0));
 				}
 			}
 		}

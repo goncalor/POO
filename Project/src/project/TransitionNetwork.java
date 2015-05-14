@@ -12,11 +12,16 @@ public class TransitionNetwork extends Network {
 	CheckStructure checkDAG;
 	int[] varDomain;
 	
+	Data data;
+	int index;
+	
 	/** creates a new transition network from the slices in {@code index} and {@code index+1} in the data {@code data}
-	 * @throws NodeOutOfBoundsException  */
+	 * @throws NodeOutOfBoundsException */
 	public TransitionNetwork(Data data, int index) throws NodeOutOfBoundsException {
 		Slice sliceT;
 		Slice sliceT1;
+		this.data = data;
+		this.index = index;
 		
 		try {
 			sliceT = data.get(index);
@@ -58,6 +63,15 @@ public class TransitionNetwork extends Network {
 		return clone;
 	}
 	
+	/** clones this transition network but with no edges between the nodes */
+	public TransitionNetwork cloneResetEdges() {
+		try {
+			return new TransitionNetwork(data, index);
+		} catch (NodeOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
 	/** @return {@code true} if {@code n} is in this network */
 	public boolean inNodes(Node n)	{
 		for(Node node: nodes) {
@@ -69,6 +83,8 @@ public class TransitionNetwork extends Network {
 	
 	/** adds a directed edge from {@code from} to {@code to} if this does not disrupt the
 	 * the property of the TN being a DAG
+	 * @param from    this will be the child
+	 * @param to      this will be the parent
 	 * @return {@code true} if the edge was added. {@code false} if adding would make the 
 	 * network not be a DAG or if one edge already exists between {@code from} and {@code to} */
 	@Override
