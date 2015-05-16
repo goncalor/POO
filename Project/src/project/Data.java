@@ -45,9 +45,5 @@ public class Data{
 		return "Data [slices=" + Arrays.toString(slices) + "\nvarNames="
 				+ Arrays.toString(varNames) + "\nvarDomain="
 				+ Arrays.toString(varDomain) + "\n]";
-	}
-
-
-	
-	
+	}	
 }

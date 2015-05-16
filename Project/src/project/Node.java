@@ -48,10 +48,18 @@ public class Node {
 		return this.edges.size();
 	}
 
+	/** creates a new iterator tha iterates over the edges of this node */
 	public Iterator<Node> iterator() {
 		return edges.iterator();
 	}
 
+	/**
+	 * clones this node and all the nodes in the connected component this node
+	 * belongs to
+	 * 
+	 * @param isomorphism
+	 *            pairs each old node to a new one: (old, new)
+	 */
 	public Node clone(Map<Node, Node> isomorphism) {
 		Node copy = isomorphism.get(this);	// this contains the reference of this node
 		if (copy == null) {

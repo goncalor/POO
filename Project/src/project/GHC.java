@@ -16,18 +16,9 @@ public class GHC implements Train {
 		 * 	return Nres
 		 */
 		
-		// we can also store the values of scoring and have nMax be a parameter so that we can return the score in order to not have to compute it again
-//		TransitionNetwork nRes=T, nMax, nTemp = nRes;
-//		while(true){
-//			nMax = calcMaxNeighbourhood(nTemp);
-//			if(scoring(S, nMax) > scoring(S, nRes))
-//				nRes = nMax;
-//			nTemp = nMax;
-//		}
-		
-		float maxScore = scoring(sm, tn);
-		float newScore = maxScore;
-		
+		float maxScore = Integer.MIN_VALUE;
+		float newScore = scoring(sm, tn);
+
 		while(maxScore < newScore) {	// Nres < N'
 			maxScore = newScore;
 			try {
@@ -43,10 +34,13 @@ public class GHC implements Train {
 	}
 	
 	
-	/** calculates the best score of the neighbours of {@code net}, using
-	 *  {@code s} as scoring criteria. {@code net} will be modified only if
-	 *  a score better than {@code threshold} is attained 
-	 *  @return the score of the best neighbour of {@code net} */
+	/**
+	 * calculates the best score of the neighbours of {@code net}, using
+	 * {@code s} as scoring criteria. {@code net} will be modified only if a
+	 * score better than {@code threshold} is attained
+	 * 
+	 * @return the score of the best neighbour of {@code net}
+	 */
 	public float calcMaxNeighbourhood(TransitionNetwork net, Score s, float threshold) throws NodeOutOfBoundsException {
 		int nrNodes = net.nrNodes();
 		float tmpScore;
@@ -135,6 +129,8 @@ public class GHC implements Train {
 			}
 		}
 		
+		// if a network was found with score better than threshold perform the
+		// operation that improves the current network
 		if (maxScore > threshold) {
 			switch (op) {
 			case ADD:
@@ -157,9 +153,14 @@ public class GHC implements Train {
 		return maxScore;
 	}
 	
-	public float scoring(Score S, TransitionNetwork T)
+
+	/**
+	 * @return the score of the transition network {@code tn} by applying the
+	 *         scoring criteria {@code sm}
+	 */
+	public float scoring(Score sc, TransitionNetwork tn)
 	{
-		return S.execute(this, T);
+		return sc.execute(this, tn);
 	}
 	
 	

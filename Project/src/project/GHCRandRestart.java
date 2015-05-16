@@ -4,11 +4,17 @@ import java.util.Random;
 
 public class GHCRandRestart extends GHC implements Train {
 
+	private int randRestNr;
+	
+	public GHCRandRestart(int randRestNr) {
+		this.randRestNr = randRestNr;
+	}
+	
 	@Override
 	public void execute(TransitionNetwork tn, Score sm) {
 
-		float maxScore = scoring(sm, tn);
-		float newScore = maxScore;
+		float maxScore = Integer.MIN_VALUE;
+		float newScore = scoring(sm, tn);
 		
 		//TODO
 		while(maxScore < newScore) {	// Nres < N'
@@ -17,10 +23,12 @@ public class GHCRandRestart extends GHC implements Train {
 				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
 			} catch (NodeOutOfBoundsException e) {
 				e.printStackTrace();
-				System.out.println("Error in GHC");
+				System.out.println("Error in GHCRandRestart");
 				System.exit(-1);
 			}
 		}
+		
+		System.out.println("train score:" + maxScore);
 	}
 
 	public TransitionNetwork randomRestart(TransitionNetwork net) {

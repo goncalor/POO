@@ -109,64 +109,78 @@ public class TransitionNetwork extends Network {
 		return false;
 	}
 	
-	/** adds a directed edge from {@code from} to {@code to} if this does not disrupt the
-	 * the property of the TN being a DAG
-	 * @param from    this will be the child
-	 * @param to      this will be the parent
-	 * @return {@code true} if the edge was added. {@code false} if adding would make the 
-	 * network not be a DAG or if one edge already exists between {@code from} and {@code to} */
+	/**
+	 * adds a directed edge from {@code child} to {@code parent} if this does not
+	 * disrupt the the property of the TN being a DAG
+	 * 
+	 * @param child
+	 *            this will be the child
+	 * @param parent
+	 *            this will be the parent
+	 * @return {@code true} if the edge was added. {@code false} if adding would
+	 *         make the network not be a DAG or if one edge already exists
+	 *         between {@code from} and {@code to}
+	 */
 	@Override
-	public boolean addEdge(Node from, Node to) throws NodeOutOfBoundsException {
-		if(!inNodes(from) || !inNodes(to))
+	public boolean addEdge(Node child, Node parent) throws NodeOutOfBoundsException {
+		if(!inNodes(child) || !inNodes(parent))
 			throw new NodeOutOfBoundsException();
 		
-		if(from.nrEdges() == maxNrParents)
+		if(child.nrEdges() == maxNrParents)	// child has the maximum number of parents
 			return false;
-		if(from.selfIndex < this.nrNodes()/2)
+		if(child.getIndex() < this.nrNodes()/2)	// nodes in t cannot be children
 			return false;
-		if(existsEdge(from, to))
+		if(existsEdge(child, parent))
 			return false;
-		from.addEdge(to);
+		child.addEdge(parent);
 		if(isDAG())
 			return true;
-		from.remEdge(to);
+		child.remEdge(parent);	// revert
 		return false;
 	}
 
-	/** removes a directed edge from {@code from} to {@code to}
-	 * @return {@code true} if the edge the edge was removed. {@code false}
-	 * if there was no edge to remove */
+	/**
+	 * removes a directed edge from {@code child} to {@code parent}
+	 * 
+	 * @return {@code true} if the edge the edge was removed. {@code false} if
+	 *         there was no edge to remove
+	 */
 	@Override
-	public boolean remEdge(Node from, Node to) throws NodeOutOfBoundsException {
-		if(!inNodes(from) || !inNodes(to))
+	public boolean remEdge(Node child, Node parent) throws NodeOutOfBoundsException {
+		if(!inNodes(child) || !inNodes(parent))
 			throw new NodeOutOfBoundsException();
 		
-		if(!existsEdge(from, to))
+		if(!existsEdge(child, parent))
 			return false;
-		from.remEdge(to);
+		child.remEdge(parent);
 		return true;
 	}
 
-	/** inverts an edge from {@code from} to {@code to} if this does not disrupt the
-	 * the property of the TN being a DAG
-	 * @return {@code true} if the edge was inverted. {@code false} if there was no edge
-	 * to invert of if inverting it would make the network not be a DAG */
+	/**
+	 * inverts an edge from {@code from} to {@code to} if this does not disrupt
+	 * the the property of the TN being a DAG
+	 * 
+	 * @return {@code true} if the edge was inverted. {@code false} if there was
+	 *         no edge to invert of if inverting it would make the network not
+	 *         be a DAG
+	 */
 	@Override
-	public boolean invEdge(Node from, Node to) throws NodeOutOfBoundsException {
-		if(!inNodes(from) || !inNodes(to))
+	public boolean invEdge(Node child, Node parent) throws NodeOutOfBoundsException {
+		if(!inNodes(child) || !inNodes(parent))
 			throw new NodeOutOfBoundsException();
 
-		if(to.selfIndex < this.nrNodes()/2)
+		if(parent.nrEdges() == maxNrParents)	// parent has the maximum number of parents
 			return false;
-		
-		if(!existsEdge(from, to))
+		if(parent.getIndex() < this.nrNodes()/2)	// nodes in t cannot be children
 			return false;
-		from.remEdge(to);
-		to.addEdge(from);
+		if(!existsEdge(child, parent))
+			return false;
+		child.remEdge(parent);
+		parent.addEdge(child);
 		if(isDAG())
 			return true;
-		to.remEdge(from);
-		from.addEdge(to);
+		parent.remEdge(child);
+		child.addEdge(parent);
 		return false;
 	}
 	
@@ -191,15 +205,20 @@ public class TransitionNetwork extends Network {
 		return this.nodes[i].nrEdges();
 	}
 
-	/** sets the method to use when checking if the network is a DAG during 
-	 * {@link project.TransitionNetwork#addEdge(Node, Node)} and 
-	 * {@link project.TransitionNetwork#invEdge(Node, Node)} */
+	/**
+	 * sets the method to use when checking if the network is a DAG during
+	 * {@link project.TransitionNetwork#addEdge(Node, Node)} and
+	 * {@link project.TransitionNetwork#invEdge(Node, Node)}
+	 */
 	public void setCheckDAG(CheckStructure checkMethod) {
 		this.checkDAG = checkMethod;
 	}
 	
-	/** checks if the network is a DAG 
-	 * @return {@code true} if the network is a DAG. {@code false} otherwise */
+	/**
+	 * checks if the network is a DAG
+	 * 
+	 * @return {@code true} if the network is a DAG. {@code false} otherwise
+	 */
 	private boolean isDAG() {
 		return checkDAG.execute(this);
 	}
