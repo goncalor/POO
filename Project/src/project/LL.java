@@ -9,7 +9,6 @@ public class LL implements Score{
 	@Override
 	public float execute(Train g, TransitionNetwork T) {
 		float returnValue = 0;
-		float []currentVal = new float[T.nrNodes()];
 		
 		System.out.print("#Nodes: ");
 		System.out.println(T.nrNodes());
@@ -54,6 +53,7 @@ public class LL implements Score{
 			
 			int[] nij = LL.calcNij(nijkVals);
 			int index = 0;
+			float []currentVal = new float[nijkVals.length];
 
 //			System.out.println("Nij Vector:");
 //			System.out.print("[");
@@ -62,16 +62,18 @@ public class LL implements Score{
 //			}
 //			System.out.println("]");
 			
+			System.out.println("nijk : " + nijkVals.length);
 			for(int[] x : nijkVals){
+				System.out.println("x value: " + x.length);
 				for(int y = 0; y<x.length;y++){
 					if(nijkVals[index][y] != 0){
 						float temp1;
 						temp1 = (float) (nijkVals[index][y]*Math.log10( (double)(nijkVals[index][y])/nij[index] ));
 						currentVal[index] += temp1;
-						System.out.println("Calc value: "+temp1+" from " + nijkVals[index][y] + " | " + nij[index]);
+//						System.out.println("Calc value: "+temp1+" from " + nijkVals[index][y] + " | " + nij[index]);
 					}
 				}
-				System.out.println("Sum: "+currentVal[index]);
+//				System.out.println("Sum: "+currentVal[index]);
 				returnValue += currentVal[index];
 				index++;
 			}

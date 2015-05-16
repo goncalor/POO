@@ -66,6 +66,7 @@ from {@code [0-maxValue]} and the variables in {@code parents} take their j-th c
 
 	public static int[][] calcNijk(int maxValue, int[] xi,int[] maxValuesParents, int[]...parents){
 		int parentSize = Nijk.convertJitoJ(maxValuesParents,maxValuesParents)+1;
+		System.out.println("Parent size: " + parentSize);
 		int[][] nijk = new int[parentSize][maxValue+1];
 		int[] parentConfig = new int[parents.length];
 		int jVal=0;
