@@ -10,7 +10,7 @@ public class MDL extends LL {
 		float ll = super.execute(g, T);
 		int nr = T.nrNodes();
 		
-		return (float) (ll - (Math.log10((double)nr)*calcB(nr, T)));
+		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, T)));
 	}
 	
 	public float calcB(int nrNodes, TransitionNetwork T){

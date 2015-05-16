@@ -68,7 +68,7 @@ public class LL implements Score{
 				for(int y = 0; y<x.length;y++){
 					if(nijkVals[index][y] != 0){
 						float temp1;
-						temp1 = (float) (nijkVals[index][y]*Math.log10( (double)(nijkVals[index][y])/nij[index] ));
+						temp1 = (float) (nijkVals[index][y]*(Math.log10( (double)(nijkVals[index][y])/nij[index] )/Math.log10(2)));
 						currentVal[index] += temp1;
 //						System.out.println("Calc value: "+temp1+" from " + nijkVals[index][y] + " | " + nij[index]);
 					}
