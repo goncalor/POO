@@ -1,11 +1,8 @@
 package project;
 
-import java.util.Random;
-
 public class GHC implements Train {
 	
-	public void execute(TransitionNetwork T, Score S)
-	{
+	public void execute(TransitionNetwork tn, Score sm)	{
 		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
 		 * 	Output: Nres
 		 * 
@@ -27,41 +24,30 @@ public class GHC implements Train {
 //				nRes = nMax;
 //			nTemp = nMax;
 //		}
+		
+		float maxScore = scoring(sm, tn);
+		float newScore = maxScore;
+		
+		while(maxScore < newScore) {	// Nres < N'
+			maxScore = newScore;
+			try {
+				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
+			} catch (NodeOutOfBoundsException e) {
+				e.printStackTrace();
+				System.out.println("Error in GHC");
+				System.exit(-1);
+			}
+		}
+		
+		System.out.println("train score:" + maxScore);
 	}
 	
-	public TransitionNetwork randomRestart(TransitionNetwork net) {
-		TransitionNetwork newnet = net.cloneResetEdges();
-		int nrNodes = newnet.nrNodes();
-		Random rand = new Random();
-		int nrEdgesInter = rand.nextInt(nrNodes/2+1);
-		// (N-1) + (N-2) + .. + 1 + 0 == (N-1)(N)/2 is the max number of edges that can be in a DAG
-		int nrEdgesIntra = rand.nextInt((nrNodes-1)*(nrNodes)/2);
-		
-		// add random edges from t to t+1 (in fact from t+1 to t, because we point to parents)
-		for(int inter=0; inter<nrEdgesInter; inter++) {
-			try {
-				newnet.addEdge(newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)), newnet.getNode(rand.nextInt(nrNodes/2)));
-			} catch (NodeOutOfBoundsException e) {
-				continue;
-			}
-		}
-		
-		// add random edged in time t+1
-		for(int intra=0; intra<nrEdgesIntra; intra++) {
-			try {
-				newnet.addEdge(newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)), newnet.getNode(nrNodes/2+rand.nextInt(nrNodes/2)));
-			} catch (NodeOutOfBoundsException e) {
-				continue;
-			}
-		}
-		
-		return newnet;
-	}
 	
 	/** calculates the best score of the neighbours of {@code net}, using
-	 *  {@code s} as scoring criteria. {@code net} will be modified by 
-	 *  this method */
-	public float calcMaxNeighbourhood(TransitionNetwork net, Score s) throws NodeOutOfBoundsException {
+	 *  {@code s} as scoring criteria. {@code net} will be modified only if
+	 *  a score better than {@code threshold} is attained 
+	 *  @return the score of the best neighbour of {@code net} */
+	public float calcMaxNeighbourhood(TransitionNetwork net, Score s, float threshold) throws NodeOutOfBoundsException {
 		int nrNodes = net.nrNodes();
 		float tmpScore;
 		operation op = operation.NOP;
@@ -149,21 +135,23 @@ public class GHC implements Train {
 			}
 		}
 		
-		switch(op) {
-		case ADD:
-			net.addEdge(net.getNode(from), net.getNode(to));
-			break;
-			
-		case INV:
-			net.invEdge(net.getNode(from), net.getNode(to));
-			break;
-			
-		case REM:
-			net.remEdge(net.getNode(from), net.getNode(to));
-			break;
-			
-		default:
-			break;
+		if (maxScore > threshold) {
+			switch (op) {
+			case ADD:
+				net.addEdge(net.getNode(from), net.getNode(to));
+				break;
+
+			case INV:
+				net.invEdge(net.getNode(from), net.getNode(to));
+				break;
+
+			case REM:
+				net.remEdge(net.getNode(from), net.getNode(to));
+				break;
+
+			default:
+				break;
+			}
 		}
 		
 		return maxScore;

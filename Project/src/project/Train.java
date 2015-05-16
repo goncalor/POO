@@ -2,5 +2,5 @@ package project;
 
 public interface Train {
 
-	public void execute(TransitionNetwork T, Score S);
+	public void execute(TransitionNetwork tn, Score sm);
 }

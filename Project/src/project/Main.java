@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, NodeOutOfBoundsException {
 
 		if (args.length < 4 || args.length > 5) {
 			System.out
@@ -52,8 +52,12 @@ public class Main {
 		Parser parse = new Parser();
 		data = parse.fromFile(s);
 
-		System.out.println("#Different sets of elements:\n" + data);
+		System.out.println(data);
 
+		TransitionNetwork tn = new TransitionNetwork(data, 0);
+		
+		tn.train(new GHC(), new LL());
+		
 		// Slice a = new Slice(3);
 		// int vals[] = {1,2,3};
 		//
