@@ -4,7 +4,25 @@ import java.util.Random;
 
 public class GHCRandRestart extends GHC implements Train {
 
-	
+	@Override
+	public void execute(TransitionNetwork tn, Score sm) {
+
+		float maxScore = scoring(sm, tn);
+		float newScore = maxScore;
+		
+		//TODO
+		while(maxScore < newScore) {	// Nres < N'
+			maxScore = newScore;
+			try {
+				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
+			} catch (NodeOutOfBoundsException e) {
+				e.printStackTrace();
+				System.out.println("Error in GHC");
+				System.exit(-1);
+			}
+		}
+	}
+
 	public TransitionNetwork randomRestart(TransitionNetwork net) {
 		TransitionNetwork newnet = net.cloneResetEdges();
 		int nrNodes = newnet.nrNodes();

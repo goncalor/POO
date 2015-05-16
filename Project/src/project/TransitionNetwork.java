@@ -9,14 +9,24 @@ public class TransitionNetwork extends Network {
 
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
 	private Node[] nodes;
+	/** the algorithm to use to check if the TN is a DAG when adding or inverting an edge*/
 	private CheckStructure checkDAG;
+	/** the maximum number of parents a node can have. default value is 3 */
+	private int maxNrParents;
+	/** the maximum value for each variable */
 	int[] varDomain;
 	
-	Data data;
-	int index;
+	// used by cloneResetEdges()
+	private Data data;
+	private int index;
 	
-	/** creates a new transition network from the slices in {@code index} and {@code index+1} in the data {@code data}
-	 * @throws NodeOutOfBoundsException */
+	/**
+	 * creates a new transition network from the slices in {@code index} and
+	 * {@code index+1} in the data {@code data}. the maximum number of parents of
+	 * each node defaults to 3
+	 * 
+	 * @throws NodeOutOfBoundsException
+	 */
 	public TransitionNetwork(Data data, int index) throws NodeOutOfBoundsException {
 		Slice sliceT;
 		Slice sliceT1;
@@ -33,6 +43,7 @@ public class TransitionNetwork extends Network {
 		
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
+		maxNrParents = 3;
 		
 		varDomain = data.getVarDomain();
 		
@@ -46,12 +57,29 @@ public class TransitionNetwork extends Network {
 			nodes[i + nodes.length/2].content = sliceT1.get(i);
 		}		
 	}
+
+	/**
+	 * creates a new transition network from the slices in {@code index} and
+	 * {@code index+1} in the data {@code data} and sets the maximum number of
+	 * parents of each node to {@code maxNrParents}
+	 * 
+	 * @throws NodeOutOfBoundsException
+	 */
+	public TransitionNetwork(Data data, int index, int maxNrParents) throws NodeOutOfBoundsException {
+		this(data, index);
+		this.maxNrParents = maxNrParents;
+	}
 	
 	/** @return the i th node in the network */
 	public Node getNode(int i) {
 		return nodes[i];
 	}
 	
+	/** @return the maximum number of parents each node can have */
+	public int getMaxNrParents() {
+		return maxNrParents;
+	}
+
 	/** @return an array containing the nodes of the network, cloned */
 	public Node[] cloneNodes () {
 		Node[] clone = new Node[nodes.length];
@@ -92,9 +120,10 @@ public class TransitionNetwork extends Network {
 		if(!inNodes(from) || !inNodes(to))
 			throw new NodeOutOfBoundsException();
 		
+		if(from.nrEdges() == maxNrParents)
+			return false;
 		if(from.selfIndex < this.nrNodes()/2)
 			return false;
-
 		if(existsEdge(from, to))
 			return false;
 		from.addEdge(to);
