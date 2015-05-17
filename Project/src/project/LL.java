@@ -26,7 +26,7 @@ public class LL implements Score{
 			int[][] nijkVals;
 			int[][] parents = new int[self.nrEdges()][nodeSelf.length];
 			int iterator = 0;
-			int[] parentsMax = new int[self.nrEdges()];		
+			int[] parentsMax = new int[self.nrEdges()];
 			
 			for(Iterator<Node> iter=self.iterator(); iter.hasNext(); ){
 				Node parent = iter.next();
