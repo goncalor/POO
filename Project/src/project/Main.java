@@ -56,7 +56,7 @@ public class Main {
 
 		TransitionNetwork tn = new TransitionNetwork(data, 0);
 		
-		tn.train(new GHC(), new LL());
+		tn.train(new GHC(), new MDL());
 		
 		// Slice a = new Slice(3);
 		// int vals[] = {1,2,3};

@@ -23,6 +23,7 @@ public class GHC implements Train {
 			maxScore = newScore;
 			try {
 				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
+				System.out.println("calcMaxNeigh:" + newScore);
 			} catch (NodeOutOfBoundsException e) {
 				e.printStackTrace();
 				System.out.println("Error in GHC");
@@ -50,7 +51,7 @@ public class GHC implements Train {
 		
 		// add edges from t to t+1 nodes
 		for(int t=0; t<nrNodes/2; t++) {
-			for(int t1=nrNodes; t1<nrNodes; t1++) {
+			for(int t1=nrNodes/2; t1<nrNodes; t1++) {
 				if(net.addEdge(net.getNode(t1), net.getNode(t))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
@@ -64,8 +65,8 @@ public class GHC implements Train {
 		}
 		
 		// add intra-temporal edges for t+1
-		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
-			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+		for(int t1_0=nrNodes/2; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes/2; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
 				if(net.addEdge(net.getNode(t1_1), net.getNode(t1_0))) {
@@ -81,8 +82,8 @@ public class GHC implements Train {
 		}
 		
 		// invert intra-temporal edges
-		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
-			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+		for(int t1_0=nrNodes/2; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes/2; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
 				if(net.invEdge(net.getNode(t1_1), net.getNode(t1_0))) {
@@ -98,8 +99,8 @@ public class GHC implements Train {
 		}
 		
 		// remove edges from t to t+1 nodes
-		for(int t=0; t<nrNodes/2; t++) {
-			for(int t1=nrNodes; t1<nrNodes; t1++) {
+		for(int t=0; t<nrNodes; t++) {
+			for(int t1=nrNodes/2; t1<nrNodes; t1++) {
 				if(net.remEdge(net.getNode(t1), net.getNode(t))) {
 					if((tmpScore = scoring(s, net)) > maxScore) {
 						maxScore = tmpScore;
@@ -113,8 +114,8 @@ public class GHC implements Train {
 		}
 		
 		// remove intra-temporal edges for t+1
-		for(int t1_0=nrNodes; t1_0<nrNodes; t1_0++) {
-			for(int t1_1=nrNodes; t1_1<nrNodes; t1_1++) {
+		for(int t1_0=nrNodes/2; t1_0<nrNodes; t1_0++) {
+			for(int t1_1=nrNodes/2; t1_1<nrNodes; t1_1++) {
 				if(t1_0 == t1_1)
 					continue;
 				if(net.remEdge(net.getNode(t1_1), net.getNode(t1_0))) {
