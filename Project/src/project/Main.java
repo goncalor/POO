@@ -85,6 +85,8 @@ public class Main {
 		
 		System.out.println(tn);
 		
+		System.out.println(Theta.calcThetaIJK(1, 1, 1, tn));
+		
 		// Slice a = new Slice(3);
 		// int vals[] = {1,2,3};
 		//
