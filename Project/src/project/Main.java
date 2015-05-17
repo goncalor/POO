@@ -50,12 +50,23 @@ public class Main {
 		
 		//
 		
-		System.out.printf("Paramaters:\t\t%s %s %s %d %d\n" , train , test , score , randrest , var);
+		System.out.printf("Paramaters:\t\t%s   %s   %s   %d   %d\n" , train , test , score , randrest , var);
 		
 		//TODO execution time
 		int buildtime = 0;
-		System.out.println("Building DBN:\t\t" + buildtime);
+		System.out.println("Building DBN:\t\t" + buildtime + " units");
+
+		System.out.println("Initial network:");
+		System.out.println("??????");
 		
+		System.out.println("Transition network:");
+		System.out.println("??????");
+		
+		System.out.println("Performing inference:");
+		System.out.println("-> intance 1: ????");
+		
+		int infertime = 0;
+		System.out.println("Inferring DBN:\t\t" + infertime + " units");
 		
 		// testing
 		

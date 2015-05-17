@@ -7,6 +7,8 @@ public class GHCRandRestart extends GHC implements Train {
 	private int randRestNr;
 	
 	public GHCRandRestart(int randRestNr) {
+		if(randRestNr < 0)
+			randRestNr = 1;
 		this.randRestNr = randRestNr;
 	}
 	
@@ -15,22 +17,28 @@ public class GHCRandRestart extends GHC implements Train {
 
 		float maxScore = Integer.MIN_VALUE;
 		float newScore = scoring(sm, tn);
+	
+		TransitionNetwork newnet;
 		
-		//TODO
-		while(maxScore < newScore) {	// Nres < N'
-			maxScore = newScore;
-			try {
-				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
-			} catch (NodeOutOfBoundsException e) {
-				e.printStackTrace();
-				System.out.println("Error in GHCRandRestart");
-				System.exit(-1);
+		for (int i = 0; i < randRestNr; i++) {
+			// TODO restart network
+			while (maxScore < newScore) { // Nres < N'
+				maxScore = newScore;
+				try {
+					newScore = calcMaxNeighbourhood(tn, sm, maxScore);
+				} catch (NodeOutOfBoundsException e) {
+					e.printStackTrace();
+					System.out.println("Error in GHCRandRestart");
+					System.exit(-1);
+				}
 			}
 		}
 		
 		System.out.println("train score:" + maxScore);
 	}
 
+	
+	/** */
 	public TransitionNetwork randomRestart(TransitionNetwork net) {
 		TransitionNetwork newnet = net.cloneResetEdges();
 		int nrNodes = newnet.nrNodes();

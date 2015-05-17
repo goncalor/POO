@@ -5,19 +5,25 @@ import java.lang.Math;
 public class MDL extends LL {
 
 	@Override
-	public float execute(Train g, TransitionNetwork T) {
+	public float execute(Train g, TransitionNetwork tn) {
 		// TODO Auto-generated method stub
-		float ll = super.execute(g, T);
-		int nr = T.nrNodes();
+		float ll = super.execute(g, tn);
+		int nr = tn.nrNodes();
 		
-		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, T)));
+		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, tn)));
 	}
 	
-	public float calcB(int nrNodes, TransitionNetwork T){
+	public float llToMDL(float ll, TransitionNetwork tn) {
+		int nr = tn.nrNodes();
+		
+		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, tn)));
+	}
+	
+	public float calcB(int nrNodes, TransitionNetwork tn){
 		int returnValue=0;
 		int qi=1;			//Calc qi
 		for(int i=0; i< nrNodes; i++){
-			returnValue += (T.varDomain[i%T.varDomain.length]-1)*qi;
+			returnValue += (tn.varDomain[i%tn.varDomain.length]-1)*qi;
 		}
 		return returnValue;
 	}

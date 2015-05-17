@@ -244,23 +244,30 @@ public class TransitionNetwork extends Network {
 		StringBuffer inter = new StringBuffer("=== Inter-slice connectivity\n");
 		StringBuffer intra = new StringBuffer("=== Intra-slice connectivity\n");
 		int index;
-		
-		for(int t1=nrNodes/2; t1<nrNodes; t1++) {
-			inter.append(data.varNames[t1-nrNodes/2] + "_" +(this.index+1) + "  :  ");
-			intra.append(data.varNames[t1-nrNodes/2] + "_" +(this.index+1) + "  :  ");
-			for(Iterator<Node> iter=nodes[t1].iterator(); iter.hasNext(); ) {
+
+		for (int t1 = nrNodes / 2; t1 < nrNodes; t1++) {
+			inter.append(data.varNames[t1 - nrNodes / 2] + "_" + (this.index + 1) + "  :  ");
+			intra.append(data.varNames[t1 - nrNodes / 2] + "_" + (this.index + 1) + "  :  ");
+			for (Iterator<Node> iter = nodes[t1].iterator(); iter.hasNext();) {
 				index = iter.next().getIndex();
-				if(index<nrNodes/2) {	// parent is from t
+				if (index < nrNodes / 2) { // parent is from t
 					inter.append(data.varNames[index] + " ");
-				}else{	// parent is from t+1
-					intra.append(data.varNames[index-nrNodes/2] + " ");
+				} else { // parent is from t+1
+					intra.append(data.varNames[index - nrNodes / 2] + " ");
 				}
 			}
-			inter.append("\n");
-			intra.append("\n");
+			inter.append('\n');
+			intra.append('\n');
 		}
-		
+
 		StringBuffer scores = new StringBuffer("=== Scores\n");
+
+		LL ll = new LL();
+		float llRes = ll.execute(new GHC(), this);
+		MDL mdl = new MDL();
+		float mdlRes = mdl.llToMDL(llRes, this);
+		scores.append("LL score\t:\t" + llRes);
+		scores.append("\nMDL score\t:\t" + mdlRes + "\n");
 		
 		return inter.toString() + intra.toString() + scores.toString();
 	}
