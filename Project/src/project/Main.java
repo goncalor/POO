@@ -83,7 +83,7 @@ public class Main {
 		System.out.println("Inferring DBN:\t\t" + infertime + " units");
 		
 		
-		
+		Inference.calcInference(tn, testData, 1);		
 		
 		
 		// testing

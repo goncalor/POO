@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class Inference {
 	
-	public float[] calcInference(TransitionNetwork tn, Slice testData, int var){
+	public static float[] calcInference(TransitionNetwork tn, Slice testData, int var){
 		Node[] inferenceNetwork = tn.cloneNodes();
 		int[] maxValues = tn.varDomain;
 		for(int i=0; i< inferenceNetwork.length/2;i++){
