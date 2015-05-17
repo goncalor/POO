@@ -62,7 +62,13 @@ public class Main {
 		long buildtime = System.currentTimeMillis();
 		System.out.print("Building DBN:\t\t");
 		
-		tn = tn.train(new GHCRandRestart(100), new LL());
+//		tn = tn.train(new GHCRandRestart(100), new LL());
+		
+		tn.addEdge(tn.getNode(4), tn.getNode(0));
+		tn.addEdge(tn.getNode(4), tn.getNode(1));
+		tn.addEdge(tn.getNode(4), tn.getNode(3));
+		tn.addEdge(tn.getNode(5), tn.getNode(4));
+		tn.addEdge(tn.getNode(5), tn.getNode(3));
 		
 		buildtime = System.currentTimeMillis() - buildtime;
 		
@@ -82,9 +88,13 @@ public class Main {
 		int infertime = 0;
 		System.out.println("Inferring DBN:\t\t" + infertime + " units");
 		
+		System.out.println(tn);
 		
-		Inference.calcInference(tn, testData, 1);		
+//		float mostProbable[] = Inference.calcInference(tn, parse.sliceFromFile(test), 1,0);	
 		
+//		System.out.print("VARIABLESSSSS:");
+//		for(float x : mostProbable)
+//			System.out.println(" " + x);
 		
 		// testing
 		
