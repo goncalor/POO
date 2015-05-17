@@ -13,9 +13,9 @@ public class Inference {
 		
 		int[] d = new int[tn.nrNodes()/2];
 		
-		float probabilities[] = new float[maxValues[var]+1];
+		float probabilities[] = new float[maxValues[var+tn.nrNodes()/2]+1];
 		
-		for(int varValue=0; varValue <= maxValues[var];varValue++){
+		for(int varValue=0; varValue <= maxValues[var+tn.nrNodes()/2];varValue++){
 			for(int ptr=0; ptr<d.length;ptr++){
 				if(ptr == var){
 					continue;
