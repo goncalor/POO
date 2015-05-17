@@ -5,8 +5,8 @@ import java.util.Iterator;
 public class Theta {
 	
 	public static float calcThetaIJK(int i, int j, int k, TransitionNetwork tn){
-		Node node = tn.getNode(i);
-		int []nodeValues = (int[]) node.content;
+		Node node = tn.getNode(i+tn.nrNodes()/2);
+		int[] nodeValues = (int[]) node.content;
 		int[][] parents = new int[node.nrEdges()][nodeValues.length];
 		int[][] nijkVals;
 		int iterator = 0;
@@ -35,5 +35,6 @@ public class Theta {
 		
 		return returnVal;
 	}
+
 
 }
