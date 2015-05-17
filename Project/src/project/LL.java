@@ -7,18 +7,18 @@ import java.lang.Math;
 public class LL implements Score{
 
 	@Override
-	public float execute(Train g, TransitionNetwork T) {
+	public float execute(TransitionNetwork T) {
 		float returnValue = 0;
 		
-		System.out.print("#Nodes: ");
-		System.out.println(T.nrNodes());
-
-		System.out.println("Max values:");
-		System.out.print("[");
-		for(int kk : T.varDomain){
-			System.out.print(kk);
-		}
-		System.out.println("]");
+//		System.out.print("#Nodes: ");
+//		System.out.println(T.nrNodes());
+//
+//		System.out.println("Max values:");
+//		System.out.print("[");
+//		for(int kk : T.varDomain){
+//			System.out.print(kk);
+//		}
+//		System.out.println("]");
 		
 		for(int i=0; i<T.nrNodes(); i++){
 			Node self = T.getNode(i);
@@ -62,9 +62,9 @@ public class LL implements Score{
 //			}
 //			System.out.println("]");
 			
-			System.out.println("nijk : " + nijkVals.length);
+//			System.out.println("nijk : " + nijkVals.length);
 			for(int[] x : nijkVals){
-				System.out.println("x value: " + x.length);
+//				System.out.println("x value: " + x.length);
 				for(int y = 0; y<x.length;y++){
 					if(nijkVals[index][y] != 0){
 						float temp1;
@@ -118,7 +118,7 @@ public class LL implements Score{
 //		System.out.println(retval);
 				
 		LL algorithm = new LL();
-		float numb = algorithm.execute(null, tn);
+		float numb = algorithm.execute(tn);
 		System.out.print("LL result: ");
 		System.out.println(numb);
 	}

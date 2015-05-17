@@ -1,7 +1,6 @@
 package project;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -263,7 +262,7 @@ public class TransitionNetwork extends Network {
 		StringBuffer scores = new StringBuffer("=== Scores\n");
 
 		LL ll = new LL();
-		float llRes = ll.execute(new GHC(), this);
+		float llRes = ll.execute(this);
 		MDL mdl = new MDL();
 		float mdlRes = mdl.llToMDL(llRes, this);
 		scores.append("LL score\t:\t" + llRes);
