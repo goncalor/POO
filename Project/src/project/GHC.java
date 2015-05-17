@@ -93,7 +93,7 @@ public class GHC implements Train {
 						from = t1_1;
 						to = t1_0;
 					}
-					net.invEdge(net.getNode(t1_1), net.getNode(t1_0));
+					net.invEdge(net.getNode(t1_0), net.getNode(t1_1));
 				}
 			}
 		}
