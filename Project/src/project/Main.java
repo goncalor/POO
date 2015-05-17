@@ -81,7 +81,7 @@ public class Main {
 
 		System.out.println(tn);
 		
-		tn.train(new GHC(), new LL());
+		tn = tn.train(new GHCRandRestart(100), new LL());
 		
 		System.out.println(tn);
 		

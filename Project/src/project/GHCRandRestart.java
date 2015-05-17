@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class GHCRandRestart extends GHC implements Train {
 
-	private int randRestNr;
+	protected int randRestNr;
 	
 	public GHCRandRestart(int randRestNr) {
 		if(randRestNr < 0)
@@ -13,32 +13,52 @@ public class GHCRandRestart extends GHC implements Train {
 	}
 	
 	@Override
-	public void execute(TransitionNetwork tn, Score sm) {
+	public TransitionNetwork execute(TransitionNetwork tn, Score sm) {
 
-		float maxScore = Integer.MIN_VALUE;
+		float maxScore = Integer.MIN_VALUE;	// local
+		float bestScore = Integer.MIN_VALUE;	// best of locals
 		float newScore = scoring(sm, tn);
 	
-		TransitionNetwork newnet;
+		TransitionNetwork newnet = tn;
 		
-		for (int i = 0; i < randRestNr; i++) {
-			// TODO restart network
+		int i = 0;
+		do {
+
 			while (maxScore < newScore) { // Nres < N'
 				maxScore = newScore;
 				try {
-					newScore = calcMaxNeighbourhood(tn, sm, maxScore);
+					newScore = calcMaxNeighbourhood(newnet, sm, maxScore);
 				} catch (NodeOutOfBoundsException e) {
 					e.printStackTrace();
 					System.out.println("Error in GHCRandRestart");
 					System.exit(-1);
 				}
 			}
+			
+			if(maxScore > bestScore) {
+				bestScore = maxScore;
+				tn = newnet;
+				System.out.println("THIS IS IT!!\n"+tn);
+			}
+			
+			newnet = randomRestart(tn);
+			newScore = scoring(sm, newnet);
+			maxScore = Integer.MIN_VALUE;
+			
+			i++;
 		}
+		while(i < randRestNr);
 		
 		System.out.println("train score:" + maxScore);
+		
+		return tn;
 	}
 
 	
-	/** */
+	/**
+	 * @return a new transtion network created with the same nodes as {@code net}
+	 *         but with random intra and inter slice edges
+	 */
 	public TransitionNetwork randomRestart(TransitionNetwork net) {
 		TransitionNetwork newnet = net.cloneResetEdges();
 		int nrNodes = newnet.nrNodes();

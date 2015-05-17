@@ -2,7 +2,13 @@ package project;
 
 public class GHC implements Train {
 	
-	public void execute(TransitionNetwork tn, Score sm)	{
+	/**
+	 * trains the transition network {@code tn} with the scoring method
+	 * {@code sm}. {@code tn} is not changed
+	 *
+	 * @return the trained network
+	 */
+	public TransitionNetwork execute(TransitionNetwork tn, Score sm)	{
 		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
 		 * 	Output: Nres
 		 * 
@@ -16,9 +22,10 @@ public class GHC implements Train {
 		 * 	return Nres
 		 */
 		
-		float maxScore = Integer.MIN_VALUE;
+		float maxScore = Integer.MIN_VALUE; 
 		float newScore = scoring(sm, tn);
-
+		tn = tn.cloneResetEdges();
+		
 		while(maxScore < newScore) {	// Nres < N'
 			maxScore = newScore;
 			try {
@@ -32,6 +39,8 @@ public class GHC implements Train {
 		}
 		
 		System.out.println("train score:" + maxScore);
+		
+		return tn;
 	}
 	
 	

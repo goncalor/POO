@@ -224,8 +224,8 @@ public class TransitionNetwork extends Network {
 	}
 
 	/** sets the method to use when training the network */
-	public void train(Train T, Score S) {
-		T.execute(this, S);
+	public TransitionNetwork train(Train T, Score S) {
+		return T.execute(this, S);
 	}
 	
 //	@Override
