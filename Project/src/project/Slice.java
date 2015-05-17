@@ -6,6 +6,7 @@ public class Slice {
 	private List<List<Integer>> xi;
 	public static int numVar;
 
+	/** creates a new slice for {@code n} variables */
 	public Slice(int n) {
 		numVar = n;
 		xi = new ArrayList<>();
@@ -14,12 +15,14 @@ public class Slice {
 		}
 	}
 
+	/** adds a new line {@code values} to this slice */
 	public void add(int values[]) {
 		for (int i = 0; i < numVar; i++) {
 			xi.get(i).add(new Integer(values[i]));
 		}
 	}
 
+	/** gets the {@code col}th from this slice */
 	public int[] get(int col) {
 		int[] ret = new int[xi.get(col).size()];
 
