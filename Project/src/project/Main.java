@@ -16,7 +16,7 @@ public class Main {
 		String train = args[0];
 		String test = args[1];
 		String score = args[2];
-		int randrest;
+		int randrest = 0;
 		int var = -1;
 
 		if (!new File(train).isFile()) {
@@ -47,6 +47,18 @@ public class Main {
 			}
 		}
 
+		
+		//
+		
+		System.out.printf("Paramaters:\t\t%s %s %s %d %d\n" , train , test , score , randrest , var);
+		
+		//TODO execution time
+		int buildtime = 0;
+		System.out.println("Building DBN:\t\t" + buildtime);
+		
+		
+		// testing
+		
 		String s = new String(train);
 		Data data;
 		Parser parse = new Parser();
@@ -56,7 +68,9 @@ public class Main {
 
 		TransitionNetwork tn = new TransitionNetwork(data, 0);
 		
-		tn.train(new GHC(), new MDL());
+		tn.train(new GHC(), new LL());
+		
+		System.out.println(tn);
 		
 		// Slice a = new Slice(3);
 		// int vals[] = {1,2,3};

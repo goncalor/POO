@@ -3,6 +3,7 @@ package project;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TransitionNetwork extends Network {
@@ -228,13 +229,40 @@ public class TransitionNetwork extends Network {
 		T.execute(this, S);
 	}
 	
+//	@Override
+//	public String toString() {
+//		String s = "";
+//		for(Node n: nodes) {
+//			s += Arrays.toString((int[]) n.content) + ", ";
+//		}
+//		return "TransitionNetwork [nodes=" + s + "]";
+//	}
+	
 	@Override
 	public String toString() {
-		String s = "";
-		for(Node n: nodes) {
-			s += Arrays.toString((int[]) n.content) + ", ";
+		int nrNodes = nodes.length;
+		StringBuffer inter = new StringBuffer("=== Inter-slice connectivity\n");
+		StringBuffer intra = new StringBuffer("=== Intra-slice connectivity\n");
+		int index;
+		
+		for(int t1=nrNodes/2; t1<nrNodes; t1++) {
+			inter.append(data.varNames[t1-nrNodes/2] + "_" +(this.index+1) + "  :  ");
+			intra.append(data.varNames[t1-nrNodes/2] + "_" +(this.index+1) + "  :  ");
+			for(Iterator<Node> iter=nodes[t1].iterator(); iter.hasNext(); ) {
+				index = iter.next().getIndex();
+				if(index<nrNodes/2) {	// parent is from t
+					inter.append(data.varNames[index] + " ");
+				}else{	// parent is from t+1
+					intra.append(data.varNames[index-nrNodes/2] + " ");
+				}
+			}
+			inter.append("\n");
+			intra.append("\n");
 		}
-		return "TransitionNetwork [nodes=" + s + "]";
+		
+		StringBuffer scores = new StringBuffer("=== Scores\n");
+		
+		return inter.toString() + intra.toString() + scores.toString();
 	}
 
 	/** main() for testing purposes 
@@ -271,4 +299,5 @@ public class TransitionNetwork extends Network {
 		
 		tn.train(new GHC(), new LL());
 	}
+
 }
