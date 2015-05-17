@@ -52,9 +52,23 @@ public class Main {
 		
 		System.out.printf("Paramaters:\t\t%s   %s   %s   %d   %d\n" , train , test , score , randrest , var);
 		
-		//TODO execution time
-		int buildtime = 0;
-		System.out.println("Building DBN:\t\t" + buildtime + " units");
+		String s = new String(train);
+		Data data;
+		Parser parse = new Parser();
+		data = parse.fromFile(s);
+		
+		TransitionNetwork tn = new TransitionNetwork(data, 0);		
+		
+		long buildtime = System.currentTimeMillis();
+		System.out.print("Building DBN:\t\t");
+		
+		tn = tn.train(new GHCRandRestart(100), new LL());
+		
+		buildtime = System.currentTimeMillis() - buildtime;
+		
+		System.out.println(buildtime + " ms");
+		
+
 
 		System.out.println("Initial network:");
 		System.out.println("??????");
@@ -68,24 +82,28 @@ public class Main {
 		int infertime = 0;
 		System.out.println("Inferring DBN:\t\t" + infertime + " units");
 		
+		
+		
+		
+		
 		// testing
 		
-		String s = new String(train);
-		Data data;
-		Parser parse = new Parser();
-		data = parse.fromFile(s);
+//		String s = new String(train);
+//		Data data;
+//		Parser parse = new Parser();
+//		data = parse.fromFile(s);
+//
+//		System.out.println(data);
+//
+//		TransitionNetwork tn = new TransitionNetwork(data, 0);
 
-		System.out.println(data);
-
-		TransitionNetwork tn = new TransitionNetwork(data, 0);
-
-		System.out.println(tn);
-		
-		tn = tn.train(new GHCRandRestart(100), new LL());
-		
-		System.out.println(tn);
-		
-		System.out.println(Theta.calcThetaIJK(1, 1, 1, tn));
+//		System.out.println(tn);
+//		
+//		tn = tn.train(new GHCRandRestart(100), new LL());
+//		
+//		System.out.println(tn);
+//		
+//		System.out.println(Theta.calcThetaIJK(1, 1, 1, tn));
 		
 		// Slice a = new Slice(3);
 		// int vals[] = {1,2,3};
