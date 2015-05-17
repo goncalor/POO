@@ -33,6 +33,7 @@ public class Parser{
 		return data;
 	}
 	
+	
 	/**
 	 * parses one line of the *.csv file other than the first
 	 * 
@@ -99,4 +100,34 @@ public class Parser{
 		data.setVarNames(names.toString().split(" "));
 		return data;
 	}
+	
+	
+	public Slice sliceFromFile(String fileName) throws IOException{
+		BufferedReader input = new BufferedReader(new FileReader(fileName));
+		String str;		
+		Slice slice = new Slice(input.readLine().split(",").length);
+		
+		String[] parsedLine;
+		
+		while ((str = input.readLine()) != null) {
+
+			parsedLine = str.replace("\t", "").replace(" ", "").split(",");
+			
+			int[] parsedLineInt = new int[parsedLine.length];
+			
+			for(int i=0; i<parsedLine.length; i++){
+				parsedLineInt[i] = Integer.parseInt(parsedLine[i]);
+			}
+			
+			slice.add(parsedLineInt);
+        }
+		input.close();
+		
+		return slice;
+	}
+
+	
+	
+	
+	
 }
