@@ -78,6 +78,8 @@ public class Main {
 		System.out.println(data);
 
 		TransitionNetwork tn = new TransitionNetwork(data, 0);
+
+		System.out.println(tn);
 		
 		tn.train(new GHC(), new LL());
 		

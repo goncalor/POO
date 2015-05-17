@@ -150,7 +150,8 @@ public class GHC implements Train {
 				break;
 			}
 		}
-		
+		System.out.println("TEMP NETWORK: ");
+		System.out.println(net);
 		return maxScore;
 	}
 	
@@ -161,7 +162,7 @@ public class GHC implements Train {
 	 */
 	public float scoring(Score sc, TransitionNetwork tn)
 	{
-		return sc.execute(this, tn);
+		return sc.execute(tn);
 	}
 	
 	

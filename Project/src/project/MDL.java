@@ -5,9 +5,9 @@ import java.lang.Math;
 public class MDL extends LL {
 
 	@Override
-	public float execute(Train g, TransitionNetwork tn) {
+	public float execute(TransitionNetwork tn) {
 		// TODO Auto-generated method stub
-		float ll = super.execute(g, tn);
+		float ll = super.execute(tn);
 		int nr = tn.nrNodes();
 		
 		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, tn)));
