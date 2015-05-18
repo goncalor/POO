@@ -43,7 +43,7 @@ public class Inference {
 		int[] parentValues, parentMaxs;
 		
 		float Oijk;	// theta ijk, outside the product operator
-		
+		float probabilityOfI=0;
 		// iterate over all configurations in d
 		for(int t1Config=0; t1Config<nrT1Configs; t1Config++)
 		{
@@ -95,6 +95,7 @@ public class Inference {
 			
 			
 			float OljPrimedl;
+			float multOverL=1;
 			
 			// iterate over all nodes in t+1 except for the ith node
 			for(int l=0; l<t1.length; l++)
@@ -154,11 +155,11 @@ public class Inference {
 
 				System.out.println("Oljdl  " +l+" " +jprime+" "+ dprime[t1Config][l]+" "+OljPrimedl);
 
-				
+				multOverL *=OljPrimedl;
 			}
-			
+			probabilityOfI += multOverL*Oijk;
 		}
-		
+		System.out.println("Probability of 1 having val 0: " + probabilityOfI);
 		
 	}
 	
