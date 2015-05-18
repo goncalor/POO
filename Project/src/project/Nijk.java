@@ -20,8 +20,12 @@ public class Nijk {
 	 */
 	public static int convertJitoJ(int[] ji, int[] maxValues){
 		int j;
-		j = ji[0];
 
+		if(ji.length == 0)
+			return 0;
+		
+		j = ji[0];
+		
 		if(maxValues.length < 2){
 			return j;
 		}
@@ -48,7 +52,7 @@ public class Nijk {
 
 		for(int i=maxValues.length-1; i>0 ;i--){
 			ji[i] = jAux%(maxValues[i]+1);
-			jAux = (jAux - ji[i])/maxValues[i];
+			jAux = (jAux - ji[i])/(maxValues[i]+1);
 		}
 		ji[0] = jAux;
 		return ji;

@@ -53,8 +53,8 @@ public class TransitionNetwork extends Network {
 		}
 		
 		for(int i=0; i<nodes.length/2; i++) {	// create nodes for this TN
-			nodes[i].content = sliceT.get(i);
-			nodes[i + nodes.length/2].content = sliceT1.get(i);
+			nodes[i].content = sliceT.getCol(i);
+			nodes[i + nodes.length/2].content = sliceT1.getCol(i);
 		}		
 	}
 

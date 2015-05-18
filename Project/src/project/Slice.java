@@ -23,13 +23,23 @@ public class Slice {
 	}
 
 	/** gets the {@code col}th from this slice */
-	public int[] get(int col) {
+	public int[] getCol(int col) {
 		int[] ret = new int[xi.get(col).size()];
 
 		Iterator<Integer> iterator = xi.get(col).iterator();
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = iterator.next().intValue();
 		}
+		return ret;
+	}
+	
+	/** gets the {@code i}th line of the slice */
+	public int[] getLine(int line) {
+		int[] ret = new int[numVar];
+		
+		for(int i=0; i<numVar; i++)
+			ret[i] = this.getCol(i)[line];
+
 		return ret;
 	}
 
