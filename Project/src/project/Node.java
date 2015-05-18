@@ -65,9 +65,10 @@ public class Node {
 		if (copy == null) {
 			copy = new Node();
 			isomorphism.put(this, copy);
+			copy.content = this.content;
+			copy.selfIndex = this.selfIndex;
 			for (Node edge : edges) {
 				copy.edges.add(edge.clone(isomorphism));
-				copy.content = this.content;
 			}
 		}
 		return copy;

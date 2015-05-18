@@ -7,6 +7,8 @@ public class Inference {
 	
 	public static void calcInference(TransitionNetwork tn, Slice slice){
 
+		float[][][] thetas = Theta.calcAllThetas(tn);
+		
 		int[] varDomain = tn.varDomain;
 		
 		int nrT1Configs = 1;	// the number of conbinations of time T+1
@@ -25,10 +27,12 @@ public class Inference {
 		for(int i=0; i<nrT1Configs; i++)
 			d[i] = Nijk.convertJtoJi(i, varDomain);
 		
+		// print d
 //		for(int i=0; i<nrT1Configs; i++)
 //			System.out.println(Arrays.toString(d[i]));
 		
-		int i = 0, j, k, testLine = 0;
+		int i = 1, j, k = 0;
+		int testLine = 0;	// the line of the test data we're int
 		
 		int[] testDataLine = slice.getLine(testLine);
 		
@@ -38,25 +42,67 @@ public class Inference {
 		
 		int[] parentValues, parentMaxs;
 		
+		float Oijk;	// theta ijk, outside the product operator
+		
+		// iterate over all configurations in d
 		for(int t1Config=0; t1Config<nrT1Configs; t1Config++)
 		{
+			if(d[t1Config][i] != k)
+			{
+				continue;
+			}
 			// calculate j for Oijk
 		
 			nrParents = t1[i].nrEdges();
 			parentValues = new int[nrParents];
 			parentMaxs= new int[nrParents];
 			
+			int auxIndex = 0;
 			for(Iterator<Node> iter=t1[i].iterator(); iter.hasNext(); )
 			{
 				Node parent = iter.next();
 				
+				// populate parentValues and parentMaxs
+				if(parent.selfIndex < nrNodes/2)
+				{
+//					System.out.println("parent in t");
+					// parent is from t. get the value from test data
+					parentValues[auxIndex] = testDataLine[parent.selfIndex];
+					parentMaxs[auxIndex] = varDomain[parent.selfIndex];
+				}
+				else
+				{
+//					System.out.println("parent in t+1");
+					// parent is from t+1. get value from d
+					parentValues[auxIndex] = d[t1Config][parent.selfIndex-nrNodes/2];
+					parentMaxs[auxIndex] = varDomain[parent.selfIndex-nrNodes/2];
+				}
+				auxIndex++;
+			}
+
+			// now we got the value of j
+			j = Nijk.convertJitoJ(parentValues, parentMaxs);
+			
+//			System.out.println(Arrays.toString(parentValues));
+////			System.out.println(Arrays.toString(parentMaxs));
+//			System.out.println(j);
+			
+			Oijk = thetas[i][j][k];
+
+			System.out.println(i+" " +j+" "+ k+" "+Oijk);
+			
+			// iterate over all nodes in t+1 except for the ith node
+			for(int l=0; l<t1.length; l++)
+			{
+				if(l == i)
+				{
+					continue;
+				}
+				
+				
 				
 				
 			}
-			
-			
-			
-			
 			
 		}
 		

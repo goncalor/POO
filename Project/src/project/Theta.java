@@ -104,21 +104,21 @@ public class Theta {
 		
 		float allThetas[][][] = Theta.calcAllThetas(tn);
 		
-		Inference.calcInference(tn);
+//		Inference.calcInference(tn);
 		
-//		int i=0,j = 0,k=0;
-//		for(float[][] a:allThetas){
-//			for(float[] b : a){
-//				for(float c : b){
-//					System.out.println("i: "+i+" j: "+j + " k: "+k+ " " +c);
-//					k++;
-//				}
-//				k=0;
-//				j++;
-//			}
-//			j=0;
-//			i++;
-//		}
+		int i=0,j = 0,k=0;
+		for(float[][] a:allThetas){
+			for(float[] b : a){
+				for(float c : b){
+					System.out.println("i: "+i+" j: "+j + " k: "+k+ " " +c);
+					k++;
+				}
+				k=0;
+				j++;
+			}
+			j=0;
+			i++;
+		}
 		
 //		System.out.println(allThetas[1][0][0]*allThetas[0][0][0]*allThetas[2][0][0]
 //				+allThetas[1][0][0]*allThetas[0][0][0]*allThetas[2][0][1]
