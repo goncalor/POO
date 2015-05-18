@@ -75,8 +75,8 @@ public class Theta {
 			}
 			maxJ = Nijk.convertJitoJ(parentsMax, parentsMax);
 
-			float [][]AllThetas = new float[maxJ][tn.varDomain[currentNode.getIndex()%tn.varDomain.length]+1];
-			for(j=0; j < maxJ; j++){
+			float [][]AllThetas = new float[maxJ+1][tn.varDomain[currentNode.getIndex()%tn.varDomain.length]+1];
+			for(j=0; j <= maxJ; j++){
 				for(int k=0; k<= tn.varDomain[currentNode.getIndex()%tn.varDomain.length];k++){
 //					System.out.println("i: "+i+" j: "+j + " k: "+k+ " " + Theta.calcThetaIJK(i-tn.nrNodes()/2, j, k, tn));
 					AllThetas[j][k] = Theta.calcThetaIJK(i-tn.nrNodes()/2, j, k, tn);

@@ -2,6 +2,7 @@ package project;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
 
@@ -70,7 +71,8 @@ public class Main {
 		tn.addEdge(tn.getNode(5), tn.getNode(4));
 		tn.addEdge(tn.getNode(5), tn.getNode(3));
 		
-		Inference.calcInference(tn, parse.sliceFromFile(test));
+		for(int i=0; i<tn.nrNodes()/2; i++)
+			System.out.println(Arrays.toString(Inference.calcInference(tn, parse.sliceFromFile(test), i)));
 		
 		buildtime = System.currentTimeMillis() - buildtime;
 		
