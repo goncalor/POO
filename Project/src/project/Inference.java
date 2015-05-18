@@ -12,6 +12,7 @@ public class Inference {
 	 */
 	public static int[] calcInference(TransitionNetwork tn, Slice slice, int i){
 
+		System.out.println("Infering over:\n" + tn);
 		float[][][] thetas = Theta.calcAllThetas(tn);
 		
 		int[] varDomain = tn.varDomain;
@@ -105,8 +106,6 @@ public class Inference {
 //					System.out.println("Oijk  " +i+" " +j+" "+ k+" "+Oijk);
 					
 					
-					
-					
 					float OljPrimedl;
 					float multOverL=1;
 					
@@ -181,6 +180,24 @@ public class Inference {
 				
 			}
 		}
+//		int i1=0, j1=0;
+//		float allSum =0;
+//		for(float[][] n1: thetas){
+//			j1=0;
+//			for(float[] n2: n1){
+//				for(float n3:n2){
+//					if(n3 >= 1){
+//						System.out.println("HELP");
+//					}
+//					allSum+= n3;
+//				}
+//				System.out.println("current sum" + allSum + "for i: " + i1 + " j: " + j1);
+//				allSum=0;
+//				j1++;
+//			}
+//			i1++;
+//		}
+		
 		return inferedVals;
 	}
 }

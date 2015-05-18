@@ -16,6 +16,7 @@ public class Data{
 		varDomain = new int[nrVars];
 	}
 	
+	/** @return number of slices minus one */
 	public int maxSlices(){
 		return slices.length-1;
 	}
@@ -40,7 +41,7 @@ public class Data{
 		this.varDomain = varDomain;
 	}
 	
-	public Slice get(int i) {
+	public Slice getSlice(int i) {
 		return slices[i];
 	}
 

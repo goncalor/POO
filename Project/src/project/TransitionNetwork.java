@@ -1,6 +1,7 @@
 package project;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,18 +29,9 @@ public class TransitionNetwork extends Network {
 	 * @throws NodeOutOfBoundsException
 	 */
 	public TransitionNetwork(Data data, int index) throws NodeOutOfBoundsException {
-		Slice sliceT;
-		Slice sliceT1;
 		this.data = data;
 		this.index = index;
 		
-		try {
-			sliceT = data.get(index);
-			sliceT1 = data.get(index+1);
-		}
-		catch(ArrayIndexOutOfBoundsException e) {
-			throw new NodeOutOfBoundsException();
-		}
 		
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
@@ -48,14 +40,31 @@ public class TransitionNetwork extends Network {
 		varDomain = data.getVarDomain();
 		
 		for(int i=0; i<nodes.length; i++) {	// create nodes for this TN
+			int[] values = new int[data.maxSlices()*data.getSlice(0).getNrLines()];
 			nodes[i] = new Node();
 			nodes[i].setIndex(i);
-		}
+			
+			System.out.println(data.maxSlices()); // slices is size 2
+			
+			nodes[i].content = values;
+		}			
+		
 		
 		for(int i=0; i<nodes.length/2; i++) {	// create nodes for this TN
-			nodes[i].content = sliceT.getCol(i);
-			nodes[i + nodes.length/2].content = sliceT1.getCol(i);
-		}		
+			for(int j=0; j < data.maxSlices(); j++)
+			{
+				int[] sliceColT = data.getSlice(j).getCol(i);
+				int[] sliceColT1 = data.getSlice(j+1).getCol(i);
+			
+				for(int k=0; k<sliceColT.length; k++){
+					((int[])nodes[i].content)[j*data.getSlice(0).getNrLines()+k] = sliceColT[k];
+					((int[])nodes[i+nodes.length/2].content)[j*data.getSlice(0).getNrLines()+k] = sliceColT1[k];
+				}
+			}
+		}
+		
+		
+
 	}
 
 	/**
@@ -228,14 +237,13 @@ public class TransitionNetwork extends Network {
 		return T.execute(this, S);
 	}
 	
-//	@Override
-//	public String toString() {
-//		String s = "";
-//		for(Node n: nodes) {
-//			s += Arrays.toString((int[]) n.content) + ", ";
-//		}
-//		return "TransitionNetwork [nodes=" + s + "]";
-//	}
+	public String toStringTemp() {
+		String s = "";
+		for(Node n: nodes) {
+			s += Arrays.toString((int[]) n.content) + ", ";
+		}
+		return "TransitionNetwork [nodes=" + s + "]";
+	}
 	
 	@Override
 	public String toString() {

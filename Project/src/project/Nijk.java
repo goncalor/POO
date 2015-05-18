@@ -76,9 +76,19 @@ from {@code [0-maxValue]} and the variables in {@code parents} take their j-th c
 		int jVal=0;
 
 		for(int i=0; i<xi.length; i++){
+			if(xi[i] == -1){
+				continue;
+			}
+			boolean isValid = true;
 			for(int j=0; j<parents.length;j++){
+				if(parents[j][i] == -1){
+					isValid = false;
+					break;
+				}
 				parentConfig[j] = parents[j][i];
 			}
+			if(!isValid)
+				continue;
 //			System.out.print("[");
 //			for(int x : parentConfig)
 //				System.out.print(x);
@@ -116,6 +126,9 @@ from {@code [0-maxValue]} and the variables in {@code parents} take their j-th c
 		int jVal=0;
 
 		for(int i=0; i<xi.length; i++){
+			if(xi[i] == -1){
+				continue;
+			}
 //			System.out.print("[");
 //			for(int x : parentConfig)
 //				System.out.print(x);

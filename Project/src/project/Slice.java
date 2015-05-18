@@ -21,6 +21,11 @@ public class Slice {
 			xi.get(i).add(new Integer(values[i]));
 		}
 	}
+	
+	/** @return number of lines in this slice*/
+	public int getNrLines(){
+		return xi.get(0).size();
+	}
 
 	/** gets the {@code col}th from this slice */
 	public int[] getCol(int col) {

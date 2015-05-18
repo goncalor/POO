@@ -10,6 +10,11 @@ import java.util.Arrays;
 public class Parser{
 	
 	/**
+	 * defines the highest possible nr of nrSlices*nrVars
+	 */
+	private static int maxLine;
+	
+	/**
 	 * opens *.csv file {@code fileName} for parsing
 	 * 
 	 * @param fileName
@@ -46,21 +51,28 @@ public class Parser{
 	 */
 	private void parseData(String str, int nrCols, Data data) {
 		String[] parsedLine = str.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
-
-		int maxValues[] = data.getVarDomain();
-		int parsedLineInt[] = new int[parsedLine.length];
-		int nrSlices = parsedLine.length/nrCols;
 		
-		for(int i=0; i< parsedLine.length; i++){
+		int maxValues[] = data.getVarDomain();
+		int parsedLineInt[] = new int[maxLine];
+		int nrSlices = maxLine/nrCols;
+		int i;
+		
+		for(i=0; i< parsedLine.length; i++){
 			parsedLineInt[i] = Integer.parseInt(parsedLine[i]);	//TODO check exception
 			
 			if(parsedLineInt[i] > maxValues[i % nrCols])
 				maxValues[i % nrCols] = parsedLineInt[i];
 		}
 		
-		for(int i=0; i < nrSlices; i++)
+		for(;i<maxLine;i++){
+			parsedLineInt[i] = -1;
+		}
+		
+		
+		
+		for(int j=0; j < nrSlices;j++)
 		{
-			data.setSliceLine(i, Arrays.copyOfRange(parsedLineInt,i*nrCols,(i+1)*nrCols));
+			data.setSliceLine(j, Arrays.copyOfRange(parsedLineInt,j*nrCols,(j+1)*nrCols));
 		}
 
 		data.setVarDomain(maxValues);
@@ -79,6 +91,7 @@ public class Parser{
 	 */
 	private Data parseVarNames(String s){
 		String[] temp = s.replace("\t", "").replace(" ", "").split(",");	// remove spaces and tabs and separate at commas
+		maxLine = temp.length;
 		HashSet<String> varNames = new HashSet<String>();
 		StringBuffer names = new StringBuffer("");
 		int sizeOfString = temp.length;

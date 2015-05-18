@@ -9,21 +9,20 @@ public class MDL extends LL {
 	public float execute(TransitionNetwork tn) {
 		// TODO Auto-generated method stub
 		float ll = super.execute(tn);
-		int nr = tn.nrNodes();
+		int nr = ((int[])tn.getNode(0).content).length;
 		
-		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, tn)));
+		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(tn.nrNodes(), tn)));
 	}
 	
 	public float llToMDL(float ll, TransitionNetwork tn) {
-		int nr = tn.nrNodes();
+		int nr = ((int[])tn.getNode(0).content).length;
 		
-		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(nr, tn)));
+		return (float) (ll - ((Math.log10((double)nr)/Math.log10(2))*calcB(tn.nrNodes(), tn)));
 	}
 	
 	public float calcB(int nrNodes, TransitionNetwork tn){
 		int returnValue=0;
 		int qi=1;			//Calc qi
-		
 		
 		for(int i=0; i< nrNodes; i++){
 			Node currentNode = tn.getNode(i);

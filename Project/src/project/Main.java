@@ -58,12 +58,22 @@ public class Main {
 		Parser parse = new Parser();
 		data = parse.fromFile(s);
 		
-		TransitionNetwork[] allTN = new TransitionNetwork[data.maxSlices()];
+		System.out.println(data);
 		
-		long buildtime = System.currentTimeMillis();
-		System.out.print("Building DBN:\t\t");
+		TransitionNetwork tn = new TransitionNetwork(data, 0);
 		
-//		tn = tn.train(new GHCRandRestart(100), new LL());
+		
+//		
+//		TransitionNetwork[] allTN = new TransitionNetwork[data.maxSlices()];
+//		
+//		long buildtime = System.currentTimeMillis();
+//		System.out.print("Building DBN:\t\t");
+		
+		tn = tn.train(new GHCRandRestart(100), new LL());
+//		
+//		System.out.println(tn);
+//		
+//		Inference.calcInference(tn, parse.sliceFromFile(test), 0);
 		
 //		tn.addEdge(tn.getNode(4), tn.getNode(0));
 //		tn.addEdge(tn.getNode(4), tn.getNode(1));
@@ -71,37 +81,42 @@ public class Main {
 //		tn.addEdge(tn.getNode(5), tn.getNode(4));
 //		tn.addEdge(tn.getNode(5), tn.getNode(3));
 
-		for(int i=0; i< data.maxSlices(); i++){
-			TransitionNetwork tn = new TransitionNetwork(data, i);
-			allTN[i] = tn.train(new GHCRandRestart(100), new LL());
-		}
+//		System.out.println("THIS IS THE GOOD ONE - AFTER TRAIN\n"+tn);
 		
-		for(int i=0; i<allTN[0].nrNodes()/2; i++)
-			System.out.println(Arrays.toString(Inference.calcInference(allTN[0], parse.sliceFromFile(test), i)));
+//		for(int i=0; i<tn.nrNodes()/2; i++)
+			System.out.println(Arrays.toString(Inference.calcInference(tn, parse.sliceFromFile(test), 0)));
+//		
 		
-		buildtime = System.currentTimeMillis() - buildtime;
+//		System.out.println(Arrays.toString(tn.varDomain));
 		
-		System.out.println(buildtime + " ms");
 		
-
-
-		System.out.println("Initial network:");
-		System.out.println("??????");
-		
-		System.out.println("Transition network:");
-		System.out.println("??????");
-		
-		System.out.println("Performing inference:");
-		System.out.println("-> intance 1: ????");
-		
-		int infertime = 0;
-		System.out.println("Inferring DBN:\t\t" + infertime + " units");
-		
-		for(int j=0; j<data.maxSlices();j++){
-			System.out.println("PRINTING TN" + allTN[j]);
-		}
-		
-		System.out.println("possible tn: "+data.maxSlices());
+//		TransitionNetwork tempN = new TransitionNetwork(data,0);
+//		
+//		tempN.addEdge(tempN.getNode(5), tempN.getNode(5));
+//		System.out.println("This should not work!\n" + tempN);
+		//		buildtime = System.currentTimeMillis() - buildtime;
+//		
+//		System.out.println(buildtime + " ms");
+//		
+//
+//
+//		System.out.println("Initial network:");
+//		System.out.println("??????");
+//		
+//		System.out.println("Transition network:");
+//		System.out.println("??????");
+//		
+//		System.out.println("Performing inference:");
+//		System.out.println("-> intance 1: ????");
+//		
+//		int infertime = 0;
+//		System.out.println("Inferring DBN:\t\t" + infertime + " units");
+//		
+//		for(int j=0; j<data.maxSlices();j++){
+//			System.out.println("PRINTING TN" + allTN[j]);
+//		}
+//		
+//		System.out.println("possible tn: "+data.maxSlices());
 //		float mostProbable[] = Inference.calcInference(tn, parse.sliceFromFile(test), 1,0);	
 		
 //		System.out.print("VARIABLESSSSS:");
