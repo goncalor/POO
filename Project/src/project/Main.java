@@ -57,12 +57,17 @@ public class Main {
 		Parser parse = new Parser();
 		data = parse.fromFile(s);
 		
-		TransitionNetwork tn = new TransitionNetwork(data, 0);		
+		TransitionNetwork[] allTN = new TransitionNetwork[data.maxSlices()];
 		
 		long buildtime = System.currentTimeMillis();
 		System.out.print("Building DBN:\t\t");
 		
-		tn = tn.train(new GHCRandRestart(100), new LL());
+		for(int i=0; i< data.maxSlices(); i++){
+			TransitionNetwork tn = new TransitionNetwork(data, i);		
+	
+			
+			allTN[i] = tn.train(new GHCRandRestart(100), new LL());
+		}
 		
 //		tn.addEdge(tn.getNode(4), tn.getNode(0));
 //		tn.addEdge(tn.getNode(4), tn.getNode(1));
@@ -88,8 +93,11 @@ public class Main {
 		int infertime = 0;
 		System.out.println("Inferring DBN:\t\t" + infertime + " units");
 		
-		System.out.println(tn);
+		for(int j=0; j<data.maxSlices();j++){
+			System.out.println("PRINTING TN" + allTN[j]);
+		}
 		
+		System.out.println("possible tn: "+data.maxSlices());
 //		float mostProbable[] = Inference.calcInference(tn, parse.sliceFromFile(test), 1,0);	
 		
 //		System.out.print("VARIABLESSSSS:");

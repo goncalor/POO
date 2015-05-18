@@ -16,6 +16,10 @@ public class Data{
 		varDomain = new int[nrVars];
 	}
 	
+	public int maxSlices(){
+		return slices.length-1;
+	}
+	
 	public void setSliceLine(int indexSlice, int lineToAdd[]){
 		this.slices[indexSlice].add(lineToAdd);
 	}
