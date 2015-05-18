@@ -17,7 +17,6 @@ public class TransitionNetwork extends Network {
 	
 	// used by cloneResetEdges()
 	private Data data;
-	private int index;
 	
 	/**
 	 * creates a new transition network from the slices in {@code index} and
@@ -26,9 +25,8 @@ public class TransitionNetwork extends Network {
 	 * 
 	 * @throws NodeOutOfBoundsException
 	 */
-	public TransitionNetwork(Data data, int index) throws NodeOutOfBoundsException {
+	public TransitionNetwork(Data data) throws NodeOutOfBoundsException {
 		this.data = data;
-		this.index = index;
 		
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
@@ -63,8 +61,8 @@ public class TransitionNetwork extends Network {
 	 * 
 	 * @throws NodeOutOfBoundsException
 	 */
-	public TransitionNetwork(Data data, int index, int maxNrParents) throws NodeOutOfBoundsException {
-		this(data, index);
+	public TransitionNetwork(Data data, int maxNrParents) throws NodeOutOfBoundsException {
+		this(data);
 		this.maxNrParents = maxNrParents;
 	}
 	
@@ -92,7 +90,7 @@ public class TransitionNetwork extends Network {
 	/** clones this transition network but with no edges between the nodes */
 	public TransitionNetwork cloneResetEdges() {
 		try {
-			return new TransitionNetwork(data, index);
+			return new TransitionNetwork(data);
 		} catch (NodeOutOfBoundsException e) {
 			return null;
 		}
@@ -238,8 +236,8 @@ public class TransitionNetwork extends Network {
 		int index;
 
 		for (int t1 = nrNodes / 2; t1 < nrNodes; t1++) {
-			inter.append(data.varNames[t1 - nrNodes / 2] + "_" + (this.index + 1) + "  :  ");
-			intra.append(data.varNames[t1 - nrNodes / 2] + "_" + (this.index + 1) + "  :  ");
+			inter.append(data.varNames[t1 - nrNodes / 2] + "_" + "t+1" + "  :  ");
+			intra.append(data.varNames[t1 - nrNodes / 2] + "_" + "t+1" + "  :  ");
 			for (Iterator<Node> iter = nodes[t1].iterator(); iter.hasNext();) {
 				index = iter.next().getIndex();
 				if (index < nrNodes / 2) { // parent is from t
