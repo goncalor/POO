@@ -2,7 +2,6 @@ package project;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Main {
 
@@ -41,116 +40,77 @@ public class Main {
 
 		if (args.length == 5) {
 			try {
-				var = Integer.parseInt(args[3]);
+				var = Integer.parseInt(args[4]);
 			} catch (NumberFormatException e) {
 				System.out.println("Var value must be an integer");
 				System.exit(-5);
 			}
 		}
 
-		
-		//
-		
 		System.out.printf("Paramaters:\t\t%s   %s   %s   %d   %d\n" , train , test , score , randrest , var);
+		// end parse arguments
 		
+		// build DBN
 		String s = new String(train);
 		Data data;
 		Parser parse = new Parser();
 		data = parse.fromFile(s);
 		
-		System.out.println(data);
-		
+		System.out.print("Builing DBN:\t\t");
+		long buildtime = System.currentTimeMillis();
+	
 		TransitionNetwork tn = new TransitionNetwork(data, 0);
 		
+		if( score.equals("LL"))
+			tn = tn.train(new GHCRandRestart(randrest), new LL());
+		else 
+			tn = tn.train(new GHCRandRestart(randrest), new MDL());
 		
-//		
-//		TransitionNetwork[] allTN = new TransitionNetwork[data.maxSlices()];
-//		
-//		long buildtime = System.currentTimeMillis();
-//		System.out.print("Building DBN:\t\t");
+		buildtime = System.currentTimeMillis() - buildtime;
+		System.out.println(buildtime + " ms");
 		
-		tn = tn.train(new GHCRandRestart(100), new LL());
-//		
-//		System.out.println(tn);
-//		
-//		Inference.calcInference(tn, parse.sliceFromFile(test), 0);
-		
-//		tn.addEdge(tn.getNode(4), tn.getNode(0));
-//		tn.addEdge(tn.getNode(4), tn.getNode(1));
-//		tn.addEdge(tn.getNode(4), tn.getNode(3));
-//		tn.addEdge(tn.getNode(5), tn.getNode(4));
-//		tn.addEdge(tn.getNode(5), tn.getNode(3));
+		System.out.println("Transition network:");
+		System.out.print(tn);
 
-//		System.out.println("THIS IS THE GOOD ONE - AFTER TRAIN\n"+tn);
 		
-//		for(int i=0; i<tn.nrNodes()/2; i++)
-			System.out.println(Arrays.toString(Inference.calcInference(tn, parse.sliceFromFile(test), 0)));
-//		
+		// perform inference
+		Slice testData = parse.sliceFromFile(test);
 		
-//		System.out.println(Arrays.toString(tn.varDomain));
-		
-		
-//		TransitionNetwork tempN = new TransitionNetwork(data,0);
-//		
-//		tempN.addEdge(tempN.getNode(5), tempN.getNode(5));
-//		System.out.println("This should not work!\n" + tempN);
-		//		buildtime = System.currentTimeMillis() - buildtime;
-//		
-//		System.out.println(buildtime + " ms");
-//		
-//
-//
-//		System.out.println("Initial network:");
-//		System.out.println("??????");
-//		
-//		System.out.println("Transition network:");
-//		System.out.println("??????");
-//		
-//		System.out.println("Performing inference:");
-//		System.out.println("-> intance 1: ????");
-//		
-//		int infertime = 0;
-//		System.out.println("Inferring DBN:\t\t" + infertime + " units");
-//		
-//		for(int j=0; j<data.maxSlices();j++){
-//			System.out.println("PRINTING TN" + allTN[j]);
-//		}
-//		
-//		System.out.println("possible tn: "+data.maxSlices());
-//		float mostProbable[] = Inference.calcInference(tn, parse.sliceFromFile(test), 1,0);	
-		
-//		System.out.print("VARIABLESSSSS:");
-//		for(float x : mostProbable)
-//			System.out.println(" " + x);
-		
-		// testing
-		
-//		String s = new String(train);
-//		Data data;
-//		Parser parse = new Parser();
-//		data = parse.fromFile(s);
-//
-//		System.out.println(data);
-//
-//		TransitionNetwork tn = new TransitionNetwork(data, 0);
+		System.out.println("Performing inference:");
 
-//		System.out.println(tn);
-//		
-//		tn = tn.train(new GHCRandRestart(100), new LL());
-//		
-//		System.out.println(tn);
-//		
-//		System.out.println(Theta.calcThetaIJK(1, 1, 1, tn));
+		long inferedTime = System.currentTimeMillis();
+		int [][]inferedVals;
 		
-		// Slice a = new Slice(3);
-		// int vals[] = {1,2,3};
-		//
-		// a.add(vals);
-		// a.add(vals);
-		// a.add(vals);
-		//
-		// System.out.println(a);
-
+		if(var != -1){
+			inferedVals = new int[1][testData.getNrLines()];
+		}else{
+			inferedVals = new int[tn.nrNodes()/2][testData.getNrLines()];
+		}
+		
+		if (var != -1){
+			inferedVals[0] = Inference.calcInference(tn, testData, var);
+		}else{
+			for(int i=0; i<tn.nrNodes()/2; i++)
+				inferedVals[i] = Inference.calcInference(tn, parse.sliceFromFile(test), i);
+		}
+		
+		inferedTime = System.currentTimeMillis() - inferedTime;
+		
+		if(var != -1){
+			System.out.println("Var: " + data.varNames[var]);
+			for(int i=0; i<testData.getNrLines(); i++){
+				System.out.println("-> instance "+i+":\t\t"+inferedVals[0][i]);
+			}
+		}else{
+			for(int l=0; l< tn.nrNodes()/2; l++){
+				System.out.println("Var: " + data.varNames[l]);
+				for(int i=0; i<testData.getNrLines(); i++){
+					System.out.println("-> instance "+i+":\t\t"+inferedVals[l][i]);
+				}
+			}
+		}
+		
+		System.out.println("Inferring DBN:\t\t" + inferedTime + " ms");	
 	}
 
 }

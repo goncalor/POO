@@ -56,5 +56,4 @@ public class Slice {
 		}
 		return "Slice [Xi=" + s + "]";
 	}
-
 }

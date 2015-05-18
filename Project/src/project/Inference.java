@@ -5,14 +5,20 @@ import java.util.Iterator;
 
 public class Inference {
 	
-	
 	/**
+	 * infers over some test data with a trained network
+	 * 
+	 * @param tn
+	 *            a trained network we want to use for inference
+	 * @param testData
+	 *            a slice containing the data we want to infer from
 	 * @param i
 	 *            the number of the node we want to infer about
+	 * 
+	 * @return the inferred values for each line of the slice
 	 */
-	public static int[] calcInference(TransitionNetwork tn, Slice slice, int i){
+	public static int[] calcInference(TransitionNetwork tn, Slice testData, int i){
 
-		System.out.println("Infering over:\n" + tn);
 		float[][][] thetas = Theta.calcAllThetas(tn);
 		
 		int[] varDomain = tn.varDomain;
@@ -27,21 +33,15 @@ public class Inference {
 		// d will have all T1 configs
 		int[][] d = new int[nrT1Configs][nrNodes];
 		
-//		System.out.println(nrT1Configs);
-		
 		// populate d
 		for(int tmp=0; tmp<nrT1Configs; tmp++)
 			d[tmp] = Nijk.convertJtoJi(tmp, varDomain);
 		
-		// print d
-//		for(int i=0; i<nrT1Configs; i++)
-//			System.out.println(Arrays.toString(d[i]));
 		
-//		int i = 1;
 		int j, k = 0, jprime;
 		int testLine = 1;	// the line of the test data we're int
 		
-		int[] testDataLine = slice.getLine(testLine);
+		int[] testDataLine = testData.getLine(testLine);
 		
 		int nrParents;
 		
@@ -49,9 +49,9 @@ public class Inference {
 		
 		int[] parentValues, parentMaxs;
 		
-		int[] inferedVals = new int[slice.getCol(0).length];
+		int[] inferedVals = new int[testData.getCol(0).length];
 		
-		for(testLine=0; testLine<slice.getCol(0).length; testLine++)
+		for(testLine=0; testLine<testData.getCol(0).length; testLine++)
 		{
 			float bestVal = 0; // this is the best value for the local probability of this line of test data
 			for(k=0; k <= varDomain[i]; k++)
@@ -79,14 +79,12 @@ public class Inference {
 						// populate parentValues and parentMaxs
 						if(parent.selfIndex < nrNodes/2)
 						{
-		//					System.out.println("parent in t");
 							// parent is from t. get the value from test data
 							parentValues[auxIndex] = testDataLine[parent.selfIndex];
 							parentMaxs[auxIndex] = varDomain[parent.selfIndex];
 						}
 						else
 						{
-		//					System.out.println("parent in t+1");
 							// parent is from t+1. get value from d
 							parentValues[auxIndex] = d[t1Config][parent.selfIndex-nrNodes/2];
 							parentMaxs[auxIndex] = varDomain[parent.selfIndex-nrNodes/2];
@@ -97,14 +95,7 @@ public class Inference {
 					// now we got the value of j
 					j = Nijk.convertJitoJ(parentValues, parentMaxs);
 					
-		//			System.out.println(Arrays.toString(parentValues));
-		////			System.out.println(Arrays.toString(parentMaxs));
-		//			System.out.println(j);
-					
 					Oijk = thetas[i][j][k];
-		
-//					System.out.println("Oijk  " +i+" " +j+" "+ k+" "+Oijk);
-					
 					
 					float OljPrimedl;
 					float multOverL=1;
@@ -141,14 +132,12 @@ public class Inference {
 							// populate parentValues and parentMaxs
 							if(parent.selfIndex < nrNodes/2)
 							{
-		//						System.out.println("parent in t");
 								// parent is from t. get the value from test data
 								parentValuesPrime[auxIndex2] = testDataLine[parent.selfIndex];
 								parentMaxsPrime[auxIndex2] = varDomain[parent.selfIndex];
 							}
 							else
 							{
-		//						System.out.println("parent in t+1");
 								// parent is from t+1. get value from d
 								parentValuesPrime[auxIndex2] = dprime[t1Config][parent.selfIndex-nrNodes/2];
 								parentMaxsPrime[auxIndex2] = varDomain[parent.selfIndex-nrNodes/2];
@@ -158,21 +147,12 @@ public class Inference {
 		
 						// now we got the value of j'
 						jprime = Nijk.convertJitoJ(parentValuesPrime, parentMaxsPrime);
-										
-		//				System.out.println(Arrays.toString(parentValues));
-		////				System.out.println(Arrays.toString(parentMaxs));
-		//				System.out.println(j);
 						
 						OljPrimedl = thetas[l][jprime][dprime[t1Config][l]];
-		
-//						System.out.println("Oljdl  " +l+" " +jprime+" "+ dprime[t1Config][l]+" "+OljPrimedl);
-		
 						multOverL *=OljPrimedl;
 					}
 					probabilityOfI += multOverL*Oijk;
 				}
-				System.out.println("Probability of node " + i + " being " + k
-						+ " for line " + testLine + ": " + probabilityOfI);
 				if(probabilityOfI > bestVal){
 					bestVal = probabilityOfI;
 					inferedVals[testLine] = k;
@@ -180,24 +160,6 @@ public class Inference {
 				
 			}
 		}
-//		int i1=0, j1=0;
-//		float allSum =0;
-//		for(float[][] n1: thetas){
-//			j1=0;
-//			for(float[] n2: n1){
-//				for(float n3:n2){
-//					if(n3 >= 1){
-//						System.out.println("HELP");
-//					}
-//					allSum+= n3;
-//				}
-//				System.out.println("current sum" + allSum + "for i: " + i1 + " j: " + j1);
-//				allSum=0;
-//				j1++;
-//			}
-//			i1++;
-//		}
-		
 		return inferedVals;
 	}
 }

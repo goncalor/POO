@@ -38,7 +38,6 @@ public class GHCRandRestart extends GHC implements Train {
 			if(maxScore > bestScore) {
 				bestScore = maxScore;
 				tn = newnet;
-				System.out.println("THIS IS IT!!\n"+tn);
 			}
 			
 			newnet = randomRestart(tn);
@@ -49,12 +48,9 @@ public class GHCRandRestart extends GHC implements Train {
 		}
 		while(i < randRestNr);
 		
-		System.out.println("train score:" + bestScore);
-		
 		return tn;
 	}
 
-	
 	/**
 	 * @return a new transtion network created with the same nodes as {@code net}
 	 *         but with random intra and inter slice edges
@@ -62,9 +58,9 @@ public class GHCRandRestart extends GHC implements Train {
 	public TransitionNetwork randomRestart(TransitionNetwork net) {
 		TransitionNetwork newnet = net.cloneResetEdges();
 		int nrNodes = newnet.nrNodes();
-//		System.out.println("RANDOM RESTART BEGIN:\n" +newnet);
 		Random rand = new Random();
 		int nrEdgesInter = rand.nextInt(nrNodes/2+1);
+		
 		// (N-1) + (N-2) + .. + 1 + 0 == (N-1)(N)/2 is the max number of edges that can be in a DAG
 		int nrEdgesIntra = rand.nextInt((nrNodes-1)*(nrNodes)/2);
 		
@@ -89,7 +85,6 @@ public class GHCRandRestart extends GHC implements Train {
 			}
 		}
 
-//		System.out.println("RANDOM RESTART END :\n" +newnet);
 		return newnet;
 	}
 }

@@ -8,20 +8,7 @@ public class GHC implements Train {
 	 *
 	 * @return the trained network
 	 */
-	public TransitionNetwork execute(TransitionNetwork tn, Score sm)	{
-		/*	Input: Initial Structure ninit, dataset D, Scoring function, stopping criteria  
-		 * 	Output: Nres
-		 * 
-		 * 	Nres = Ninit , N' = Nres
-		 * 	while stopping criteria is not satisfied
-		 * 		N'' = arg max scoring(N)
-		 * 		if scoring(N') > scoring(N'') then N'' = random(N)
-		 * 		if scoring(N'') > scoring(Nres) then Nres = N''
-		 * 		N' = N''
-		 * 	end while
-		 * 	return Nres
-		 */
-		
+	public TransitionNetwork execute(TransitionNetwork tn, Score sm){
 		float maxScore = Integer.MIN_VALUE; 
 		float newScore = scoring(sm, tn);
 		tn = tn.cloneResetEdges();
@@ -30,19 +17,14 @@ public class GHC implements Train {
 			maxScore = newScore;
 			try {
 				newScore = calcMaxNeighbourhood(tn, sm, maxScore);
-				System.out.println("calcMaxNeigh:" + newScore);
 			} catch (NodeOutOfBoundsException e) {
 				e.printStackTrace();
 				System.out.println("Error in GHC");
 				System.exit(-1);
 			}
 		}
-		
-		System.out.println("train score:" + maxScore);
-		
 		return tn;
 	}
-	
 	
 	/**
 	 * calculates the best score of the neighbours of {@code net}, using
@@ -159,12 +141,9 @@ public class GHC implements Train {
 				break;
 			}
 		}
-		System.out.println("TEMP NETWORK: ");
-		System.out.println(net);
 		return maxScore;
 	}
 	
-
 	/**
 	 * @return the score of the transition network {@code tn} by applying the
 	 *         scoring criteria {@code sm}
@@ -173,7 +152,6 @@ public class GHC implements Train {
 	{
 		return sc.execute(tn);
 	}
-	
 	
 	public enum operation {
 	    ADD, REM, INV, NOP

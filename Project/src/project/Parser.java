@@ -38,7 +38,6 @@ public class Parser{
 		return data;
 	}
 	
-	
 	/**
 	 * parses one line of the *.csv file other than the first
 	 * 
@@ -67,8 +66,6 @@ public class Parser{
 		for(;i<maxLine;i++){
 			parsedLineInt[i] = -1;
 		}
-		
-		
 		
 		for(int j=0; j < nrSlices;j++)
 		{
@@ -138,9 +135,4 @@ public class Parser{
 		
 		return slice;
 	}
-
-	
-	
-	
-	
 }

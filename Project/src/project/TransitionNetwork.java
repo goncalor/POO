@@ -1,7 +1,5 @@
 package project;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,7 +30,6 @@ public class TransitionNetwork extends Network {
 		this.data = data;
 		this.index = index;
 		
-		
 		nodes = new Node[2*Slice.numVar];
 		checkDAG = new Tarjan();	// Tarjan is the default algorithm for checkDAG()
 		maxNrParents = 3;
@@ -43,16 +40,11 @@ public class TransitionNetwork extends Network {
 			int[] values = new int[data.maxSlices()*data.getSlice(0).getNrLines()];
 			nodes[i] = new Node();
 			nodes[i].setIndex(i);
-			
-			System.out.println(data.maxSlices()); // slices is size 2
-			
 			nodes[i].content = values;
-		}			
+		}
 		
-		
-		for(int i=0; i<nodes.length/2; i++) {	// create nodes for this TN
-			for(int j=0; j < data.maxSlices(); j++)
-			{
+		for(int i=0; i<nodes.length/2; i++){	// create nodes for this TN
+			for(int j=0; j < data.maxSlices(); j++){
 				int[] sliceColT = data.getSlice(j).getCol(i);
 				int[] sliceColT1 = data.getSlice(j+1).getCol(i);
 			
@@ -62,9 +54,6 @@ public class TransitionNetwork extends Network {
 				}
 			}
 		}
-		
-		
-
 	}
 
 	/**
@@ -237,14 +226,10 @@ public class TransitionNetwork extends Network {
 		return T.execute(this, S);
 	}
 	
-	public String toStringTemp() {
-		String s = "";
-		for(Node n: nodes) {
-			s += Arrays.toString((int[]) n.content) + ", ";
-		}
-		return "TransitionNetwork [nodes=" + s + "]";
-	}
-	
+	/**
+	 * prints the inter-slice and intra-slice connectivities of the network,
+	 * aswell as the ll and mdl score of the network.
+	 */
 	@Override
 	public String toString() {
 		int nrNodes = nodes.length;
@@ -278,40 +263,4 @@ public class TransitionNetwork extends Network {
 		
 		return inter.toString() + intra.toString() + scores.toString();
 	}
-
-	/** main() for testing purposes 
-	 * @throws NodeOutOfBoundsException */
-	public static void main(String[] args) throws NodeOutOfBoundsException {
-		
-		Data data = null;
-		Parser parse = new Parser();
-		try {
-			data = parse.fromFile(new String("datasets/test02.csv"));
-		} catch (IOException e) {
-			System.out.println("No such file");
-			System.exit(-1);
-		}
-		
-		System.out.println("#Different sets of elements:\n" + data);
-		
-		/* transition from t=0 to t=1 */
-		TransitionNetwork tn = new TransitionNetwork(data, 0);
-		
-		System.out.println(tn);
-		
-		boolean retval;
-		retval = tn.addEdge(tn.nodes[0], tn.nodes[1]);
-		System.out.println(retval);
-		
-		retval = tn.addEdge(tn.nodes[1], tn.nodes[2]);
-		System.out.println(retval);
-		
-		retval = tn.addEdge(tn.nodes[2], tn.nodes[0]);
-		System.out.println(retval);
-				
-		/* transition from t=1 to t=2 */
-		
-		tn.train(new GHC(), new LL());
-	}
-
 }

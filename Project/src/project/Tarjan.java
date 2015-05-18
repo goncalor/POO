@@ -9,9 +9,9 @@ public class Tarjan implements CheckDAG {
 	
 	/** a modified implementation of Tarjan's algorithm to check if a TransitionNetwork is a DAG */
 	@Override
-	public boolean execute(TransitionNetwork network) {
-
-		nodes = network.cloneNodes();
+	public boolean execute(Network network) {
+		
+		nodes = ((TransitionNetwork) network).cloneNodes();
 		
 		// initialise nodes with info necessary for the algorithm
 		for(int i=0; i<nodes.length; i++) {

@@ -29,8 +29,6 @@ public class GUI {
 		JTextField textField = new JTextField(20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		final String newline = "\n";
-		
 		GUI.setupJTreeTrain();
 		GUI.setupJTreeTest();
 		
@@ -127,7 +125,6 @@ public class GUI {
 		trainNode.add(new DefaultMutableTreeNode("train-data.csv"));
 		trainNode.add(new DefaultMutableTreeNode("train-data-1.csv"));
 		trainNode.add(new DefaultMutableTreeNode("train-data-2.csv"));
-        
          
         //create the tree by passing in the root node
         treeTrain = new JTree(trainNode);
@@ -154,7 +151,5 @@ public class GUI {
 		public void actionPerformed(ActionEvent e) {
 			label.setText("Button was pressed!");
 		}
-		
 	}
-
 }

@@ -7,7 +7,6 @@ public class MDL extends LL {
 
 	@Override
 	public float execute(TransitionNetwork tn) {
-		// TODO Auto-generated method stub
 		float ll = super.execute(tn);
 		int nr = ((int[])tn.getNode(0).content).length;
 		
@@ -42,6 +41,4 @@ public class MDL extends LL {
 		}
 		return returnValue;
 	}
-
-	
 }
