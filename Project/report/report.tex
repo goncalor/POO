@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+
+\usepackage{tecnico_relatorio}
+
+\usepackage{textcomp}
+\usepackage[hypcap]{caption} % makes \ref point to top of figures and tables
+%\usepackage{rotating}
+\usepackage{float}
+\usepackage[nottoc]{tocbibind}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[justification=centering]{caption}
+\usepackage{listings}
+\usepackage{indentfirst} % indent first paragraph in section
+
+\begin{document}
+	\trSetImage{img/tecnico_logo}{6cm} % Logotipo do Técnico
+	\trSetSubject{Co-Projecto Hardware/Software}
+	\trSetType{Parte I}
+	\trSetTitle{Compressão de Texto Usando Codificação de Huffman}
+
+	\trSetBoxStyle{0.3}
+
+	\trSetAuthorNr{2}
+
+	\trSetAuthors
+	{
+		\begin{center}
+			Gonçalo Ribeiro
+
+			73294
+		\end{center}
+	}{
+		\begin{center}
+			Francisco Leal
+
+			72939
+		\end{center}
+	}
+
+	\trSetProfessor{Prof. Alexandra Carvalho}
+
+	\trMakeCover
+
+	\tableofcontents
+	\pagenumbering{gobble}
+
+	\pagebreak
+
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+
+
+
+
+
+\end{document}
