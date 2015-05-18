@@ -62,13 +62,13 @@ public class Main {
 		long buildtime = System.currentTimeMillis();
 		System.out.print("Building DBN:\t\t");
 		
-//		tn = tn.train(new GHCRandRestart(100), new LL());
+		tn = tn.train(new GHCRandRestart(100), new LL());
 		
-		tn.addEdge(tn.getNode(4), tn.getNode(0));
-		tn.addEdge(tn.getNode(4), tn.getNode(1));
-		tn.addEdge(tn.getNode(4), tn.getNode(3));
-		tn.addEdge(tn.getNode(5), tn.getNode(4));
-		tn.addEdge(tn.getNode(5), tn.getNode(3));
+//		tn.addEdge(tn.getNode(4), tn.getNode(0));
+//		tn.addEdge(tn.getNode(4), tn.getNode(1));
+//		tn.addEdge(tn.getNode(4), tn.getNode(3));
+//		tn.addEdge(tn.getNode(5), tn.getNode(4));
+//		tn.addEdge(tn.getNode(5), tn.getNode(3));
 		
 		buildtime = System.currentTimeMillis() - buildtime;
 		
