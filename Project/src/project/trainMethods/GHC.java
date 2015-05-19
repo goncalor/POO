@@ -5,6 +5,11 @@ import project.TransitionNetwork;
 import project.network.NodeOutOfBoundsException;
 import project.scoringMethods.Score;
 
+/**
+ * Greddy Hill Climbing algorithm without any extra implementations, such as random restarts or TabuList
+ * 
+ */
+
 public class GHC implements Train {
 	
 	/**

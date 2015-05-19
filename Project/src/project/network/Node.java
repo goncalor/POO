@@ -5,6 +5,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Stores the information for a Node, content can be set to anything. Has a set
+ * of parents ( {@code edges}), content and the index of that Node
+ */
+
 public class Node {
 
 	/** list of neighbours of this node */

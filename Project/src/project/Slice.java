@@ -2,6 +2,10 @@ package project;
 
 import java.util.*;
 
+/**
+ * Used to store the input files into a Matrix, composed of ArrayList's.
+ */
+
 public class Slice {
 	private List<List<Integer>> xi;
 	public static int numVar;

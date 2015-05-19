@@ -13,6 +13,11 @@ import project.scoringMethods.LL;
 import project.scoringMethods.MDL;
 import project.scoringMethods.Score;
 
+/**
+ * A more specific instance of Network
+ * 
+ */
+
 public class TransitionNetwork extends Network {
 
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */

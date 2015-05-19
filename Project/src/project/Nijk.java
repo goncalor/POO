@@ -125,9 +125,9 @@ public class Nijk {
 	 *            Maximum possible value of xi dataset
 	 * @param xi
 	 *            xi dataset
-	 * @param maxValuesParents
+	 * @param maxValue
 	 *            Maximum possible value of parents dataset
-	 * @param parents
+	 * @param xi
 	 *            parents dataset
 	 * @return nijk[][]
 	 */

@@ -5,10 +5,14 @@ import java.util.Iterator;
 
 import project.network.Node;
 
+/**
+ * Inferes over some test data, using a Network which has been submitted to some kind of structure learning
+ * 
+ */
+
 public class Inference {
 	
 	/**
-	 * infers over some test data with a trained network
 	 * 
 	 * @param tn
 	 *            a trained network we want to use for inference
