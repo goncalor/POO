@@ -4,6 +4,15 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import project.network.Network;
+import project.network.Node;
+import project.network.NodeOutOfBoundsException;
+import project.network.structureUtils.CheckStructure;
+import project.network.structureUtils.Tarjan;
+import project.scoringMethods.LL;
+import project.scoringMethods.MDL;
+import project.scoringMethods.Score;
+
 public class TransitionNetwork extends Network {
 
 	/** the nodes in this transition network. first half of the array refers to time t; second half to time t+1 */
@@ -13,7 +22,7 @@ public class TransitionNetwork extends Network {
 	/** the maximum number of parents a node can have. default value is 3 */
 	private int maxNrParents;
 	/** the maximum value for each variable */
-	int[] varDomain;
+	protected int[] varDomain;
 	
 	// used by cloneResetEdges()
 	private Data data;
@@ -224,6 +233,14 @@ public class TransitionNetwork extends Network {
 		return T.execute(this, S);
 	}
 	
+	/**
+	 * @return an array of the maximum values for each variable in this
+	 *         transition network
+	 */
+	public int[] getVarDomain() {
+		return varDomain;
+	}
+
 	/**
 	 * prints the inter-slice and intra-slice connectivities of the network,
 	 * aswell as the ll and mdl score of the network.

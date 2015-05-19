@@ -1,4 +1,4 @@
-package project;
+package project.network;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,12 +18,12 @@ public class Node {
 		edges = new HashSet<Node>();
 	}
 
-	/** Set index*/
+	/** sets the index for this node */
 	public void setIndex(int a){
 		this.selfIndex = a;
 	}
 	
-	/** Get index*/
+	/** gets the index for this node */
 	public int getIndex(){
 		return this.selfIndex;
 	}

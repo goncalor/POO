@@ -1,7 +1,11 @@
-package project;
+package project.scoringMethods;
 
 import java.lang.Math;
 import java.util.Iterator;
+
+import project.Nijk;
+import project.TransitionNetwork;
+import project.network.Node;
 
 public class MDL extends LL {
 
@@ -32,12 +36,12 @@ public class MDL extends LL {
 				int iterator = 0;
 				for(Iterator<Node> iter=currentNode.iterator(); iter.hasNext(); ){
 					Node parent = iter.next();
-					parentsMax[iterator] = tn.varDomain[parent.getIndex()%tn.varDomain.length];
+					parentsMax[iterator] = tn.getVarDomain()[parent.getIndex()%tn.getVarDomain().length];
 					iterator++;
 				}
 				qi = Nijk.convertJitoJ(parentsMax, parentsMax);
 			}
-			returnValue += (tn.varDomain[i%tn.varDomain.length]-1)*qi;
+			returnValue += (tn.getVarDomain()[i%tn.getVarDomain().length]-1)*qi;
 		}
 		return returnValue;
 	}

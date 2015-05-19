@@ -1,16 +1,20 @@
-package project;
+package project.scoringMethods;
 
 import java.util.Iterator;
 import java.lang.Math;
 
+import project.Nijk;
+import project.TransitionNetwork;
+import project.network.Node;
+
 public class LL implements Score {
 
 	@Override
-	public float execute(TransitionNetwork T) {
+	public float execute(TransitionNetwork tn) {
 		float returnValue = 0;
 
-		for (int i = 0; i < T.nrNodes(); i++) {
-			Node self = T.getNode(i);
+		for (int i = 0; i < tn.nrNodes(); i++) {
+			Node self = tn.getNode(i);
 			int[] nodeSelf = (int[]) self.content;
 			int[][] nijkVals;
 			int[][] parents = new int[self.nrEdges()][nodeSelf.length];
@@ -20,16 +24,16 @@ public class LL implements Score {
 			for (Iterator<Node> iter = self.iterator(); iter.hasNext();) {
 				Node parent = iter.next();
 				parents[iterator] = (int[]) parent.content;
-				parentsMax[iterator] = T.varDomain[parent.getIndex()
-						% T.varDomain.length];
+				parentsMax[iterator] = tn.getVarDomain()[parent.getIndex()
+						% tn.getVarDomain().length];
 				iterator++;
 			}
 
-			int tempIndex = i % (T.varDomain.length);
+			int tempIndex = i % (tn.getVarDomain().length);
 			if (self.nrEdges() == 0) {
-				nijkVals = Nijk.calcNijk(T.varDomain[tempIndex], nodeSelf);
+				nijkVals = Nijk.calcNijk(tn.getVarDomain()[tempIndex], nodeSelf);
 			} else {
-				nijkVals = Nijk.calcNijk(T.varDomain[tempIndex], nodeSelf,
+				nijkVals = Nijk.calcNijk(tn.getVarDomain()[tempIndex], nodeSelf,
 						parentsMax, parents);
 			}
 

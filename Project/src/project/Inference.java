@@ -3,6 +3,8 @@ package project;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import project.network.Node;
+
 public class Inference {
 	
 	/**
@@ -77,17 +79,17 @@ public class Inference {
 						Node parent = iter.next();
 						
 						// populate parentValues and parentMaxs
-						if(parent.selfIndex < nrNodes/2)
+						if(parent.getIndex() < nrNodes/2)
 						{
 							// parent is from t. get the value from test data
-							parentValues[auxIndex] = testDataLine[parent.selfIndex];
-							parentMaxs[auxIndex] = varDomain[parent.selfIndex];
+							parentValues[auxIndex] = testDataLine[parent.getIndex()];
+							parentMaxs[auxIndex] = varDomain[parent.getIndex()];
 						}
 						else
 						{
 							// parent is from t+1. get value from d
-							parentValues[auxIndex] = d[t1Config][parent.selfIndex-nrNodes/2];
-							parentMaxs[auxIndex] = varDomain[parent.selfIndex-nrNodes/2];
+							parentValues[auxIndex] = d[t1Config][parent.getIndex()-nrNodes/2];
+							parentMaxs[auxIndex] = varDomain[parent.getIndex()-nrNodes/2];
 						}
 						auxIndex++;
 					}
@@ -130,17 +132,17 @@ public class Inference {
 							Node parent = iter.next();
 							
 							// populate parentValues and parentMaxs
-							if(parent.selfIndex < nrNodes/2)
+							if(parent.getIndex() < nrNodes/2)
 							{
 								// parent is from t. get the value from test data
-								parentValuesPrime[auxIndex2] = testDataLine[parent.selfIndex];
-								parentMaxsPrime[auxIndex2] = varDomain[parent.selfIndex];
+								parentValuesPrime[auxIndex2] = testDataLine[parent.getIndex()];
+								parentMaxsPrime[auxIndex2] = varDomain[parent.getIndex()];
 							}
 							else
 							{
 								// parent is from t+1. get value from d
-								parentValuesPrime[auxIndex2] = dprime[t1Config][parent.selfIndex-nrNodes/2];
-								parentMaxsPrime[auxIndex2] = varDomain[parent.selfIndex-nrNodes/2];
+								parentValuesPrime[auxIndex2] = dprime[t1Config][parent.getIndex()-nrNodes/2];
+								parentMaxsPrime[auxIndex2] = varDomain[parent.getIndex()-nrNodes/2];
 							}
 							auxIndex2++;
 						}

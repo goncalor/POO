@@ -1,4 +1,5 @@
-package project;
+package project.network;
+
 
 public abstract class Network {
 

@@ -1,7 +1,9 @@
-package project;
+package project.trainMethods;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import project.network.Network;
 
 public class TabuList {
 	protected Set<Integer> tabu;

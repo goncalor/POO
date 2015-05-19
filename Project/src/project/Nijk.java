@@ -1,5 +1,7 @@
 package project;
 
+import project.network.Node;
+
 /**
  * This class consists exclusively of static methods to calculate the Nijk
  * parameters of a certain {@code Node}.

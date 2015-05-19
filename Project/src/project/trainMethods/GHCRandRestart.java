@@ -1,6 +1,11 @@
-package project;
+package project.trainMethods;
 
 import java.util.Random;
+
+import project.Train;
+import project.TransitionNetwork;
+import project.network.NodeOutOfBoundsException;
+import project.scoringMethods.Score;
 
 public class GHCRandRestart extends GHC implements Train {
 

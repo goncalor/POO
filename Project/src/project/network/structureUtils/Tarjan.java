@@ -1,6 +1,10 @@
-package project;
+package project.network.structureUtils;
 
 import java.util.Iterator;
+
+import project.TransitionNetwork;
+import project.network.Network;
+import project.network.Node;
 
 /** checks if a network is a DAG using an algorithm based on Tarjan algorithm */
 public class Tarjan implements CheckDAG {
@@ -49,7 +53,7 @@ public class Tarjan implements CheckDAG {
 	}
 	
 	/** information needed in each node for
-	 *  {@link project.Tarjan#isDAG(Node)} to use */
+	 *  {@link project.network.structureUtils.Tarjan#isDAG(Node)} to use */
 	private class NodeInfo {
 		/** {@code true} if this node has been visited */
 		boolean visited;

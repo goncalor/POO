@@ -2,6 +2,9 @@ package project;
 
 import java.util.Iterator;
 
+import project.network.Node;
+import project.scoringMethods.LL;
+
 public class Theta {
 	
 	public static float calcThetaIJK(int i, int j, int k, TransitionNetwork tn){

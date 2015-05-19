@@ -1,4 +1,9 @@
-package project;
+package project.trainMethods;
+
+import project.Train;
+import project.TransitionNetwork;
+import project.network.NodeOutOfBoundsException;
+import project.scoringMethods.Score;
 
 public class GHC implements Train {
 	

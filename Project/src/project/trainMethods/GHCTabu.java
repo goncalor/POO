@@ -1,4 +1,4 @@
-package project;
+package project.trainMethods;
 
 public class GHCTabu extends GHCRandRestart {
 
