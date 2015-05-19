@@ -7,8 +7,15 @@ import project.Nijk;
 import project.TransitionNetwork;
 import project.network.Node;
 
+/**
+ * Upon receiving a fixed TransitionNetwork it will calcute the log-likehood of such method.
+ * Implements the abstract class Score
+ */
+
 public class LL implements Score {
 
+	/** @param tn network whose structure will be used in order to calculate the best possible structure
+	 * @return the LL score of the given network*/
 	@Override
 	public float execute(TransitionNetwork tn) {
 		float returnValue = 0;
@@ -57,6 +64,8 @@ public class LL implements Score {
 		}
 		return returnValue;
 	}
+	
+	/** Sums over a full Nijk, iterating over k in order to achieve the format desired */
 
 	public static int[] calcNij(int[][] Nijk) {
 		int[] totalVal = new int[Nijk.length];

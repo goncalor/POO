@@ -5,8 +5,19 @@ import java.util.Iterator;
 import project.network.Node;
 import project.scoringMethods.LL;
 
+/**
+ * Contains only static methods in order to calculate the Thetas of a certain i,
+ * j, k configuration a TransitionNetwork with fixed structure
+ * 
+ */
+
 public class Theta {
 	
+	/** Given a certain i, j and k, and the respective TransitionNetwork, calculates the theta(i,j,k)
+	 * @param i index of node
+	 * @param j parent configuration
+	 * @param k current value of node i
+	 * @param tn fixed structure TransitionNetwork*/
 	public static float calcThetaIJK(int i, int j, int k, TransitionNetwork tn){
 		Node node = tn.getNode(i+tn.nrNodes()/2);
 		int[] nodeValues = (int[]) node.content;
@@ -38,6 +49,7 @@ public class Theta {
 		return returnVal;
 	}
 	
+	/** Calculates all the thetas for the */
 	public static float[][][] calcAllThetas(TransitionNetwork tn){
 		float returnVal[][][] = new float[tn.nrNodes()/2][][];
 		for(int i=tn.nrNodes()/2; i < tn.nrNodes();i++){
@@ -46,6 +58,7 @@ public class Theta {
 		return returnVal;
 	}
 	
+	/** Calculates all the Thetas for a certain Node*/
 	private static float[][] calcThetasForNodeI(TransitionNetwork tn, int i){
 		int j, maxJ;
 		Node currentNode = tn.getNode(i);

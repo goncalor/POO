@@ -5,6 +5,11 @@ import java.util.Set;
 
 import project.network.Network;
 
+/**
+ * Auxiliar class for the implementation of Greddy Hill Climbing using Tabu List.
+ * 
+ */
+
 public class TabuList {
 	protected Set<Integer> tabu;
 	
@@ -12,11 +17,13 @@ public class TabuList {
 		this.tabu = new HashSet<Integer>();
 	}
 	
-	public boolean addNetwork(Network n){
-		return this.tabu.add(n.hashCode());
+	/** @return true if the Network {@code tn} isn't already on the HashSet*/
+	public boolean addNetwork(Network tn){
+		return this.tabu.add(tn.hashCode());
 	}
 	
-	public boolean containsNetwork(Network n){
-		return this.tabu.contains(n.hashCode());
+	/** @return true if the Network {@code tn} is already on the HastSet*/
+	public boolean containsNetwork(Network tn){
+		return this.tabu.contains(tn.hashCode());
 	}
 }

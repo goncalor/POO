@@ -7,16 +7,29 @@ import project.TransitionNetwork;
 import project.network.NodeOutOfBoundsException;
 import project.scoringMethods.Score;
 
+/**
+ * Extends the implementation provided by GHC for the interface Train.
+ * Implements Greddy Hill Climbing using randomRestarts
+ *
+ */
+
 public class GHCRandRestart extends GHC implements Train {
 
 	protected int randRestNr;
 	
+	/** when instantiated it is required to identify the number of randomRestarts that will be taken into affect on the stopping criteria*/
 	public GHCRandRestart(int randRestNr) {
 		if(randRestNr < 0)
 			randRestNr = 1;
 		this.randRestNr = randRestNr;
 	}
 	
+	/**
+	 * trains the transition network {@code tn} with the scoring method
+	 * {@code sm}. {@code tn} is not changed.
+	 *
+	 * @return the trained network
+	 */
 	@Override
 	public TransitionNetwork execute(TransitionNetwork tn, Score sm) {
 

@@ -1,5 +1,10 @@
 package project.network;
 
+/**
+ * Allows for multiple implementations of Network type classes, defining only
+ * the minimum number of methods required to build a Network
+ * 
+ */
 
 public abstract class Network {
 
