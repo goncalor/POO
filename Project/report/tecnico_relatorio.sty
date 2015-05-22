@@ -24,12 +24,20 @@
 	\relax
 }
 \newcommand{\trSetImage}[2]{
-	\renewcommand{\trImage}{\includegraphics[width=#2]{#1}\\[3cm]}
+	\renewcommand{\trImage}{\includegraphics[width=#2]{#1}\\[1cm]}
+}
+
+\newcommand{\trCourse}{
+	\relax
+}
+\newcommand{\trSetCourse}[1]{
+	\renewcommand{\trCourse}{\textsc{\large #1}\\[3cm]}
 }
 
 \newcommand{\trSubject}{
 	\relax
 }
+
 \newcommand{\trSetSubject}[1]{
 	\renewcommand{\trSubject}{\textsc{\LARGE #1}\\[1.5cm]}
 }
@@ -91,6 +99,13 @@
 	\trSetGenStyle{\hfil}{\hfil}
 }
 
+
+\newcommand{\trGroupNo}{
+	\relax
+}
+\newcommand{\trSetGroupNo}[1]{
+	\renewcommand{\trGroupNo}{\textsc{\Large #1}\\[.5cm]}
+}
 
 \newcommand{\trAuthorOne}{
 	\relax
@@ -202,10 +217,13 @@
 	\begin{titlepage}
 		\begin{center}
 			\trImage
+            \trCourse
 			\trSubject
 			\trType
 			\trTitle
 			
+            \trGroupNo
+            
 			\trGenPrologue
 			
 			\trAuthorOne		
@@ -216,7 +234,7 @@
 			\trAuthorSix
 			
 			\trGenEpilogue
-			\vspace{7mm}
+			\vspace{15mm}
 			
 			\trProfessor
 			
