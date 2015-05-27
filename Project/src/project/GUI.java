@@ -26,7 +26,7 @@ public class GUI {
 		// build frame 
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame frame = new JFrame("Projecto POO");
-		JTextField textField = new JTextField(20);
+		final JTextField textField = new JTextField(20);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GUI.setupJTreeTrain();
